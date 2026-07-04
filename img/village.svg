@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" fill="none">
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#87CEEB"/><stop offset="60%" stop-color="#E8F5E9"/><stop offset="100%" stop-color="#A5D6A7"/></linearGradient></defs>
+  <rect width="800" height="500" fill="url(#bg)"/>
+  <ellipse cx="400" cy="450" rx="380" ry="40" fill="#2E7D32" opacity="0.3"/>
+  <rect x="100" y="280" width="80" height="100" fill="#8D6E63"/><polygon points="100,280 140,230 180,280" fill="#A1887F"/>
+  <rect x="220" y="300" width="70" height="80" fill="#8D6E63"/><polygon points="220,300 255,260 290,300" fill="#A1887F"/>
+  <rect x="340" y="270" width="90" height="110" fill="#8D6E63"/><polygon points="340,270 385,210 430,270" fill="#A1887F"/>
+  <rect x="480" y="290" width="75" height="90" fill="#8D6E63"/><polygon points="480,290 518,250 556,290" fill="#A1887F"/>
+  <rect x="600" y="275" width="85" height="105" fill="#8D6E63"/><polygon points="600,275 642,220 685,275" fill="#A1887F"/>
+  <circle cx="650" cy="80" r="40" fill="#FFD54F" opacity="0.9"/>
+  <text x="400" y="470" text-anchor="middle" font-family="Arial" font-size="16" fill="#1B5E20" font-weight="600">Ponmudi Village  Tamil Nadu</text>
+</svg>

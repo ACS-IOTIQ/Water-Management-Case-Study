@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" fill="none">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#E3F2FD"/><stop offset="100%" stop-color="#F7FAFC"/></linearGradient>
+    <linearGradient id="tank" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#1E88E5"/><stop offset="100%" stop-color="#0A4DA3"/></linearGradient>
+    <linearGradient id="water" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#42A5F5"/><stop offset="100%" stop-color="#1565C0"/></linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#sky)"/>
+  <ellipse cx="400" cy="420" rx="320" ry="30" fill="#000" opacity="0.08"/>
+  <rect x="280" y="120" width="240" height="280" rx="20" fill="url(#tank)"/>
+  <rect x="295" y="200" width="210" height="185" rx="8" fill="url(#water)" opacity="0.85"/>
+  <path d="M295 200 Q400 175 505 200" stroke="#fff" stroke-width="3" fill="none" opacity="0.5"/>
+  <rect x="350" y="80" width="100" height="50" rx="8" fill="#0D1B2A" opacity="0.7"/>
+  <circle cx="200" cy="380" r="40" fill="#37474F"/><circle cx="200" cy="380" r="20" fill="#546E7A"/>
+  <circle cx="600" cy="380" r="40" fill="#37474F"/><circle cx="600" cy="380" r="20" fill="#546E7A"/>
+  <rect x="170" y="300" width="60" height="80" rx="4" fill="#455A64"/>
+  <rect x="570" y="300" width="60" height="80" rx="4" fill="#455A64"/>
+  <text x="400" y="470" text-anchor="middle" font-family="Arial" font-size="16" fill="#0A4DA3" font-weight="600">Overhead Tank  OHT</text>
+</svg>
