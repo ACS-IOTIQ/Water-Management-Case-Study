@@ -1,3 +1,32 @@
+# Direct access via server IP (or any host other than the domain below), plain HTTP
+:80 {
+    reverse_proxy proposals-app:80
+
+    encode gzip zstd
+
+    header {
+        -Server
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "SAMEORIGIN"
+        Referrer-Policy "strict-origin-when-cross-origin"
+    }
+}
+
+# Direct access via server IP on port 5173, plain HTTP
+:5173 {
+    reverse_proxy proposals-app:80
+
+    encode gzip zstd
+
+    header {
+        -Server
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "SAMEORIGIN"
+        Referrer-Policy "strict-origin-when-cross-origin"
+    }
+}
+
+# Domain: Caddy provisions TLS automatically and redirects http:// -> https://
 proposals.acstechnologies.co.in {
     reverse_proxy proposals-app:80
 
