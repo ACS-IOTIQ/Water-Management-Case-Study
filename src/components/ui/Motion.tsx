@@ -19,6 +19,23 @@ export const staggerItem = {
   },
 };
 
+export const stepContainer = {
+  hidden: {},
+  show: {
+    transition: { staggerChildren: 0.16, delayChildren: 0.15 },
+  },
+};
+
+export const stepItem = {
+  hidden: { opacity: 0, y: -32, scale: 0.94 },
+  show: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.55, ease },
+  },
+};
+
 interface FadeUpProps extends HTMLMotionProps<'div'> {
   delay?: number;
 }

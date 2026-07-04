@@ -1,30 +1,34 @@
 import {
   ArrowRight,
+  BarChart3,
   Building2,
+  Calendar,
+  CheckCircle2,
   Cpu,
   Droplets,
+  Globe,
   Handshake,
   Landmark,
   Leaf,
   MapPin,
   Phone,
-  Play,
+  Radio,
   Scale,
   ShieldCheck,
+  Sliders,
   TrendingUp,
   Users,
   Wrench,
   Zap,
-  BarChart3,
-  CheckCircle2,
-  Globe,
 } from 'lucide-react';
-import { PONMUDI_STATS } from '../data/slides';
-import { FadeUp, MotionGrid, motion, staggerItem } from './ui/Motion';
+import { KEY_PERFORMANCE, PONMUDI_STATS, SAVINGS_BREAKDOWN } from '../data/slides';
+import { FadeUp, MotionGrid, motion, staggerItem, stepContainer, stepItem } from './ui/Motion';
 import { Slide } from './ui/SlideShell';
 import { WaterBackground } from './ui/WaterBackground';
 import { GotoButton, PopupButton } from './ui/ActionButtons';
 import { StatCard, KpiBar } from './ui/StatCard';
+import { SavingsDonut } from './ui/SavingsDonut';
+import { SystemTabs } from './ui/SystemTabs';
 
 function QrCode() {
   return (
@@ -41,6 +45,13 @@ function QrCode() {
     </svg>
   );
 }
+
+const HOW_STEPS = [
+  { title: 'Monitor', Icon: Radio, desc: 'IoT sensors read tank level & flow' },
+  { title: 'Plan', Icon: Calendar, desc: 'Schedule engine applies officer rules' },
+  { title: 'Control', Icon: Sliders, desc: 'Pumps & valves act automatically' },
+  { title: 'Report', Icon: BarChart3, desc: 'Dashboard updates; alerts on anomalies' },
+] as const;
 
 const PROBLEM_CARDS = [
   { id: 'waste-overflow' as const, Icon: Droplets, label: 'Overflow & Loss', sub: '50K L/day wasted' },
@@ -73,11 +84,17 @@ export function SlideDeck() {
               Automation of Water Supply — Ponmudi Gram Panchayat, Erode District
             </p>
           </FadeUp>
-          <FadeUp delay={0.34}>
+          <motion.div
+            className="hero-byline"
+            initial={{ opacity: 0, x: -60 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7, delay: 0.34, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <span className="byline-rule" />
             <p className="hero-company">
               by <strong>ACS Technologies Pvt Ltd</strong> · Hyderabad
             </p>
-          </FadeUp>
+          </motion.div>
           <FadeUp delay={0.45}>
             <GotoButton slide={2} className="btn-water">
               Explore Proposal <ArrowRight size={18} />
@@ -88,7 +105,7 @@ export function SlideDeck() {
 
       {/* 2 Context */}
       <Slide index={2}>
-        <div className="slide-bg bg-ocean" />
+        <div className="slide-bg" />
         <div className="slide-content">
           <FadeUp><span className="eyebrow">Reference Site</span></FadeUp>
           <FadeUp delay={0.08}>
@@ -114,7 +131,7 @@ export function SlideDeck() {
 
       {/* 3 Challenges */}
       <Slide index={3}>
-        <div className="slide-bg bg-deep" />
+        <div className="slide-bg" />
         <div className="slide-content">
           <FadeUp><span className="eyebrow">Challenges</span></FadeUp>
           <FadeUp delay={0.08}>
@@ -141,7 +158,7 @@ export function SlideDeck() {
 
       {/* 4 Solution */}
       <Slide index={4}>
-        <div className="slide-bg bg-ocean" />
+        <div className="slide-bg" />
         <div className="slide-content center">
           <FadeUp><span className="eyebrow">Solution</span></FadeUp>
           <FadeUp delay={0.08}>
@@ -173,37 +190,37 @@ export function SlideDeck() {
 
       {/* 5 How it works */}
       <Slide index={5}>
-        <div className="slide-bg bg-mist" />
+        <div className="slide-bg" />
         <div className="slide-content center">
           <FadeUp><span className="eyebrow">Architecture</span></FadeUp>
           <FadeUp delay={0.08}>
-            <h2 className="slide-title">How iTank Works</h2>
+            <h2 className="slide-title light">How iTank Works</h2>
           </FadeUp>
-          <FadeUp delay={0.16}>
-            <div className="flow-strip">
-              {['Monitor', 'Plan', 'Control', 'Report'].map((step, i) => (
-                <div key={step} className={`flow-step ${i === 3 ? 'accent' : ''}`}>
-                  <b>{i + 1}</b>{step}
-                </div>
-              ))}
-            </div>
-          </FadeUp>
-          <FadeUp delay={0.24}>
-            <img src="/img/case-study.png" alt="Ponmudi OHT" className="hero-visual case-photo" />
-          </FadeUp>
-          <FadeUp delay={0.32}>
-            <div className="btn-group">
-              <PopupButton popupId="system-overview" className="btn-guide dark"><Cpu size={16} /> System</PopupButton>
-              <PopupButton popupId="devices" className="btn-guide dark"><Zap size={16} /> Devices</PopupButton>
-              <PopupButton popupId="dashboard-demo" className="btn-water-sm"><Play size={14} /> Live Dashboard</PopupButton>
-            </div>
+          <motion.div
+            className="flow-grid"
+            variants={stepContainer}
+            initial="hidden"
+            animate="show"
+            transition={{ delayChildren: 0.16 }}
+          >
+            {HOW_STEPS.map(({ title, Icon, desc }, i) => (
+              <motion.div key={title} className={`flow-card ${i === 3 ? 'accent' : ''}`} variants={stepItem}>
+                <span className="flow-num">{i + 1}</span>
+                <Icon size={28} strokeWidth={1.75} />
+                <h3>{title}</h3>
+                <p>{desc}</p>
+              </motion.div>
+            ))}
+          </motion.div>
+          <FadeUp delay={0.5}>
+            <SystemTabs />
           </FadeUp>
         </div>
       </Slide>
 
       {/* 6 Partners */}
       <Slide index={6}>
-        <div className="slide-bg bg-deep" />
+        <div className="slide-bg" />
         <div className="slide-content center">
           <FadeUp><span className="eyebrow">Stakeholders</span></FadeUp>
           <FadeUp delay={0.08}>
@@ -228,7 +245,7 @@ export function SlideDeck() {
 
       {/* 7 Impact */}
       <Slide index={7}>
-        <div className="slide-bg bg-ocean" />
+        <div className="slide-bg" />
         <div className="slide-content center">
           <FadeUp><span className="eyebrow">Proven Results</span></FadeUp>
           <FadeUp delay={0.08}>
@@ -254,12 +271,25 @@ export function SlideDeck() {
               { icon: Droplets, value: '2.70L', label: 'Lakh L/Day' },
             ]}
           />
+          <motion.div
+            className="perf-chips"
+            variants={stepContainer}
+            initial="hidden"
+            animate="show"
+            transition={{ delayChildren: 0.5 }}
+          >
+            {KEY_PERFORMANCE.map((item) => (
+              <motion.span key={item} className="perf-chip" variants={stepItem}>
+                <span className="check">✓</span> {item}
+              </motion.span>
+            ))}
+          </motion.div>
         </div>
       </Slide>
 
       {/* 8 Financial */}
       <Slide index={8}>
-        <div className="slide-bg bg-deep" />
+        <div className="slide-bg" />
         <div className="slide-content center">
           <FadeUp><span className="eyebrow">ROI</span></FadeUp>
           <FadeUp delay={0.08}>
@@ -270,7 +300,10 @@ export function SlideDeck() {
             <StatCard icon={Zap} value={PONMUDI_STATS.annualSavings} label="Annual Savings" delay={0.18} accent />
             <StatCard icon={BarChart3} value={PONMUDI_STATS.payback} label="Payback Period" delay={0.26} />
           </MotionGrid>
-          <FadeUp delay={0.35}>
+          <FadeUp delay={0.32}>
+            <SavingsDonut segments={[...SAVINGS_BREAKDOWN]} total={PONMUDI_STATS.annualSavings} />
+          </FadeUp>
+          <FadeUp delay={0.42}>
             <div className="btn-group">
               <PopupButton popupId="commercial-detail" className="btn-guide">Savings Breakdown</PopupButton>
               <PopupButton popupId="roi-detail" className="btn-guide">Scale ROI →</PopupButton>
@@ -281,26 +314,32 @@ export function SlideDeck() {
 
       {/* 9 Case Study */}
       <Slide index={9}>
-        <div className="slide-bg bg-mist" />
+        <div className="slide-bg" />
         <div className="slide-content split">
           <div>
             <FadeUp><span className="eyebrow">Scale</span></FadeUp>
             <FadeUp delay={0.08}>
-              <h2 className="slide-title">Deployment &amp; Expansion</h2>
+              <h2 className="slide-title light">Deployment &amp; Expansion</h2>
             </FadeUp>
             <FadeUp delay={0.14}>
-              <p className="slide-lead">
+              <p className="slide-lead light">
                 Scaling across <strong>{PONMUDI_STATS.scalePanchayats} Gram Panchayats</strong> ·{' '}
                 <strong>{PONMUDI_STATS.scaleOhts} OHTs</strong> in Erode District
               </p>
             </FadeUp>
-            <FadeUp delay={0.22}>
-              <div className="phase-list">
-                {['Site Survey', 'Install & Configure', 'Go Live & Train', 'District Scale'].map((p, i) => (
-                  <div key={p} className="phase"><span>0{i + 1}</span> {p}</div>
-                ))}
-              </div>
-            </FadeUp>
+            <motion.div
+              className="phase-list"
+              variants={stepContainer}
+              initial="hidden"
+              animate="show"
+              transition={{ delayChildren: 0.22 }}
+            >
+              {['Site Survey', 'Install & Configure', 'Go Live & Train', 'District Scale'].map((p, i) => (
+                <motion.div key={p} className="phase" variants={stepItem}>
+                  <span>0{i + 1}</span> {p}
+                </motion.div>
+              ))}
+            </motion.div>
             <FadeUp delay={0.32}>
               <div className="btn-group align-left">
                 <PopupButton popupId="case-reference" className="btn-guide dark">
@@ -309,20 +348,16 @@ export function SlideDeck() {
                 <PopupButton popupId="deployment" className="btn-guide dark">Deployment Plan</PopupButton>
               </div>
             </FadeUp>
-            <FadeUp delay={0.4}>
-              <p className="scale-note">
-                District potential: <strong>{PONMUDI_STATS.scaleSavingsPotential}</strong> annual savings
-              </p>
-            </FadeUp>
           </div>
           <FadeUp delay={0.2}>
-            <motion.img
-              src="/img/case-study.png"
-              alt="Ponmudi case study"
-              className="hero-visual case-photo"
-              whileHover={{ scale: 1.02 }}
-              transition={{ type: 'spring', stiffness: 300 }}
-            />
+            <div className="scale-panel glass">
+              <span className="eyebrow">Scale Snapshot</span>
+              <div className="scale-stats">
+                <StatCard icon={Building2} value={`${PONMUDI_STATS.scaleOhts}`} label="OHTs at Scale" delay={0.1} />
+                <StatCard icon={Landmark} value={`${PONMUDI_STATS.scalePanchayats}`} label="Gram Panchayats" delay={0.18} />
+                <StatCard icon={TrendingUp} value={PONMUDI_STATS.scaleSavingsPotential} label="Annual Savings Potential" delay={0.26} accent />
+              </div>
+            </div>
           </FadeUp>
         </div>
       </Slide>

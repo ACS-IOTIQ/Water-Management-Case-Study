@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import type { LucideIcon } from 'lucide-react';
+import { CountUp } from './CountUp';
 
 interface StatCardProps {
   icon: LucideIcon;
@@ -21,7 +22,9 @@ export function StatCard({ icon: Icon, value, label, accent, delay = 0 }: StatCa
       <div className="stat-icon-wrap">
         <Icon size={22} strokeWidth={1.75} />
       </div>
-      <span className="stat-value">{value}</span>
+      <span className="stat-value">
+        <CountUp value={value} delay={delay + 0.15} />
+      </span>
       <span className="stat-label">{label}</span>
     </motion.div>
   );
@@ -42,7 +45,9 @@ export function KpiBar({ items }: KpiBarProps) {
       {items.map((item) => (
         <div key={item.label} className="kpi-item">
           <item.icon size={18} />
-          <strong>{item.value}</strong>
+          <strong>
+            <CountUp value={item.value} delay={0.5} />
+          </strong>
           <span>{item.label}</span>
         </div>
       ))}

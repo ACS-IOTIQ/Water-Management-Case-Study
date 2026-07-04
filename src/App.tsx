@@ -34,7 +34,7 @@ function PresentationApp() {
             background: 'rgba(10, 25, 47, 0.92)',
             border: '1px solid rgba(79, 195, 247, 0.25)',
             color: '#fff',
-            fontFamily: 'General Sans, sans-serif',
+            fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif",
           },
         }}
       />

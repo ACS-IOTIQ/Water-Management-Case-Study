@@ -39,3 +39,16 @@ export const PONMUDI_STATS = {
   energySaved: '2,19,000 kWh',
   waterSaved: '600 KL treated water',
 } as const;
+
+export const SAVINGS_BREAKDOWN = [
+  { label: 'Electricity Savings', value: 300000, color: '#4FC3F7' },
+  { label: 'Water Loss Prevention', value: 150000, color: '#00C853' },
+  { label: 'Manpower Savings', value: 120000, color: '#FFB300' },
+  { label: 'Maintenance Savings', value: 110000, color: '#AB47BC' },
+] as const;
+
+export const KEY_PERFORMANCE = [
+  '100% Villages Covered',
+  'Reliable & Sustainable Supply',
+  'Real-time Monitoring & Control',
+] as const;

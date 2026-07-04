@@ -7,10 +7,6 @@ export type PopupId =
   | 'conserve-how'
   | 'regulate-how'
   | 'quality-how'
-  | 'system-overview'
-  | 'how-steps'
-  | 'devices'
-  | 'dashboard-demo'
   | 'audience-twad'
   | 'audience-municipal'
   | 'audience-csr'
@@ -24,9 +20,9 @@ export type PopupId =
 export interface PopupData {
   title: string;
   icon?: string;
-  body: string;
-  live?: boolean;
-  image?: string;
+  stat?: string;
+  statLabel?: string;
+  points: string[];
 }
 
 export const TOTAL_SLIDES = 10;
