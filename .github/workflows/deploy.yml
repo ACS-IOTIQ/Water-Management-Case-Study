@@ -1,0 +1,28 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy over SSH
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          port: ${{ secrets.SSH_PORT }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            set -e
+            if [ -d "${{ vars.DEPLOY_PATH }}/.git" ]; then
+              cd "${{ vars.DEPLOY_PATH }}"
+              git pull
+            else
+              git clone "${{ vars.REPO_URL }}" "${{ vars.DEPLOY_PATH }}"
+              cd "${{ vars.DEPLOY_PATH }}"
+            fi
+            docker compose up -d --build
