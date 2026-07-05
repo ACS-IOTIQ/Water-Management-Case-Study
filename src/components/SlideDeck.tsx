@@ -121,9 +121,9 @@ function ContextSlide() {
               <StatCard icon={CheckCircle2} value="100%" label="Villages Covered" delay={0.26} />
             </MotionGrid>
             <FadeUp delay={0.35}>
-              <PopupButton popupId="water-crisis" className="btn-guide">
+              <GotoButton slide={4} className="btn-guide">
                 Before Automation <ArrowRight size={16} />
-              </PopupButton>
+              </GotoButton>
             </FadeUp>
           </motion.div>
         ) : (
