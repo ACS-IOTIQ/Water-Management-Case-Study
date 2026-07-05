@@ -1,0 +1,35 @@
+services:
+  proposals-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: proposals-app
+    restart: unless-stopped
+    expose:
+      - "80"
+    networks:
+      - web
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "5173:5173"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - web
+    depends_on:
+      - proposals-app
+
+networks:
+  web:
+
+volumes:
+  caddy_data:
+  caddy_config:
