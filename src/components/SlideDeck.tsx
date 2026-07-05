@@ -43,22 +43,6 @@ import { SystemTabs } from './ui/SystemTabs';
 import { DetailPanel } from './ui/DetailPanel';
 import { DemoVideo } from './ui/DemoVideo';
 
-function QrCode() {
-  return (
-    <svg viewBox="0 0 100 100" className="qr-svg" aria-label="QR Code">
-      <rect width="100" height="100" fill="#fff" />
-      <rect x="5" y="5" width="25" height="25" fill="#0A4DA3" />
-      <rect x="8" y="8" width="19" height="19" fill="#fff" />
-      <rect x="11" y="11" width="13" height="13" fill="#0A4DA3" />
-      <rect x="70" y="5" width="25" height="25" fill="#0A4DA3" />
-      <rect x="73" y="8" width="19" height="19" fill="#fff" />
-      <rect x="76" y="11" width="13" height="13" fill="#0A4DA3" />
-      <rect x="5" y="70" width="25" height="25" fill="#0A4DA3" />
-      <rect x="40" y="40" width="20" height="20" fill="#1E88E5" opacity="0.5" />
-    </svg>
-  );
-}
-
 const HOW_STEPS = [
   { title: 'Monitor', Icon: Radio, desc: 'IoT sensors read tank level & flow' },
   { title: 'Plan', Icon: Calendar, desc: 'Schedule engine applies officer rules' },
@@ -537,8 +521,8 @@ function ContactSlide() {
                   </p>
                 </div>
                 <PopupButton popupId="company" className="qr-block glass">
-                  <QrCode />
-                  <span>Company info</span>
+                  <img src="/img/acs-logo.jpeg" alt="ACS Technologies" className="qr-logo" />
+                  <span>ACS Technologies</span>
                 </PopupButton>
               </div>
             </FadeUp>
