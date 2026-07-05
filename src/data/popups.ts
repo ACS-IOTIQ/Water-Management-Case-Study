@@ -192,7 +192,7 @@ export const POPUPS: Record<PopupId, PopupData> = {
     ],
   },
   company: {
-    title: 'ACS Technologies Pvt Ltd',
+    title: 'ACS Technologies Ltd',
     icon: 'building',
     points: [
       '<strong>HQ:</strong> Hyderabad, Telangana',

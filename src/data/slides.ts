@@ -1,4 +1,5 @@
 export const SLIDE_TITLES = [
+  'ACS Proposals',
   'Project Proposal',
   'Ponmudi Context',
   'Challenges',

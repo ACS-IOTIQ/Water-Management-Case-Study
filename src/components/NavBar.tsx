@@ -2,18 +2,18 @@ import { motion } from 'framer-motion';
 import { usePresentation } from '../context/PresentationContext';
 
 export function NavBar() {
-  const { currentSlide, totalSlides, next, prev } = usePresentation();
+  const { currentSlide, totalSlides, next, prev, goTo } = usePresentation();
   const pct = (currentSlide / totalSlides) * 100;
 
   return (
     <nav className="nav-bar" aria-label="Presentation navigation">
-      <div className="nav-logo">
-        <img src="/img/logo.svg" alt="iTank" width={34} height={34} />
+      <button type="button" className="nav-logo" onClick={() => goTo(1)} aria-label="Back to proposals">
+        <img src="/img/logo.svg" alt="Home" width={34} height={34} />
         <div className="nav-brand">
-          <span>iTank</span>
+          <span>Home</span>
           <small>ACS Technologies</small>
         </div>
-      </div>
+      </button>
       <div className="nav-progress">
         <div className="progress-track">
           <motion.div

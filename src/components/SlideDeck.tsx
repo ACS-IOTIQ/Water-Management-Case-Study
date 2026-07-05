@@ -41,6 +41,7 @@ import { StatCard, KpiBar } from './ui/StatCard';
 import { SavingsDonut } from './ui/SavingsDonut';
 import { SystemTabs } from './ui/SystemTabs';
 import { DetailPanel } from './ui/DetailPanel';
+import { DemoVideo } from './ui/DemoVideo';
 
 function QrCode() {
   return (
@@ -116,7 +117,7 @@ function ContextSlide() {
   const { activePopup, closePopup } = usePresentation();
   const active = activePopup === 'water-crisis' ? activePopup : null;
   return (
-    <Slide index={2}>
+    <Slide index={3}>
       <div className="slide-bg" />
       <AnimatePresence mode="wait">
         {!active ? (
@@ -155,7 +156,7 @@ function ChallengesSlide() {
   const { activePopup, closePopup } = usePresentation();
   const active = PROBLEM_CARDS.some((c) => c.id === activePopup) ? activePopup : null;
   return (
-    <Slide index={3}>
+    <Slide index={4}>
       <div className="slide-bg" />
       <AnimatePresence mode="wait">
         {!active ? (
@@ -167,7 +168,7 @@ function ChallengesSlide() {
             <FadeUp delay={0.14}>
               <p className="slide-lead light">Tap a card to explore each challenge</p>
             </FadeUp>
-            <MotionGrid className="guide-grid challenge-row">
+            <MotionGrid className="guide-grid quad-row">
               {PROBLEM_CARDS.map(({ id, Icon, label, sub }) => (
                 <motion.div key={id} variants={staggerItem}>
                   <PopupButton popupId={id} className="guide-card glass">
@@ -195,7 +196,7 @@ function SolutionSlide() {
   const { activePopup, closePopup } = usePresentation();
   const active = SOLUTION_CARDS.some((c) => c.id === activePopup) ? activePopup : null;
   return (
-    <Slide index={4}>
+    <Slide index={5}>
       <div className="slide-bg" />
       <AnimatePresence mode="wait">
         {!active ? (
@@ -236,7 +237,7 @@ function PartnersSlide() {
   const { activePopup, closePopup } = usePresentation();
   const active = PARTNER_CARDS.some((c) => c.id === activePopup) ? activePopup : null;
   return (
-    <Slide index={6}>
+    <Slide index={7}>
       <div className="slide-bg" />
       <AnimatePresence mode="wait">
         {!active ? (
@@ -270,7 +271,7 @@ function ImpactSlide() {
   const { activePopup, closePopup } = usePresentation();
   const active = activePopup === 'benefits-detail' ? activePopup : null;
   return (
-    <Slide index={7}>
+    <Slide index={8}>
       <div className="slide-bg" />
       <AnimatePresence mode="wait">
         {!active ? (
@@ -328,7 +329,7 @@ function FinancialSlide() {
   const active =
     activePopup === 'commercial-detail' || activePopup === 'roi-detail' ? activePopup : null;
   return (
-    <Slide index={8}>
+    <Slide index={9}>
       <div className="slide-bg" />
       <AnimatePresence mode="wait">
         {!active ? (
@@ -367,7 +368,7 @@ function CaseStudySlide() {
   const active =
     activePopup === 'case-reference' || activePopup === 'deployment' ? activePopup : null;
   return (
-    <Slide index={9}>
+    <Slide index={10}>
       <div className="slide-bg" />
       <AnimatePresence mode="wait">
         {!active ? (
@@ -430,7 +431,7 @@ function RecognitionSlide() {
   const { activePopup, closePopup } = usePresentation();
   const active = RECOGNITION_CARDS.some((c) => c.id === activePopup) ? activePopup : null;
   return (
-    <Slide index={11}>
+    <Slide index={12}>
       <div className="slide-bg traffic" />
       <AnimatePresence mode="wait">
         {!active ? (
@@ -442,7 +443,7 @@ function RecognitionSlide() {
             <FadeUp delay={0.14}>
               <p className="slide-lead light">Tap a card to see how each capability works</p>
             </FadeUp>
-            <MotionGrid className="guide-grid">
+            <MotionGrid className="guide-grid quad-row">
               {RECOGNITION_CARDS.map(({ id, Icon, label, sub }) => (
                 <motion.div key={id} variants={staggerItem}>
                   <PopupButton popupId={id} className="guide-card glass">
@@ -470,7 +471,7 @@ function ApplicationsSlide() {
   const { activePopup, closePopup } = usePresentation();
   const active = APPLICATION_CARDS.some((c) => c.id === activePopup) ? activePopup : null;
   return (
-    <Slide index={12}>
+    <Slide index={13}>
       <div className="slide-bg traffic" />
       <AnimatePresence mode="wait">
         {!active ? (
@@ -482,7 +483,7 @@ function ApplicationsSlide() {
             <FadeUp delay={0.14}>
               <p className="slide-lead light">Same recognition engine, applied across infrastructure</p>
             </FadeUp>
-            <MotionGrid className="guide-grid">
+            <MotionGrid className="guide-grid quad-row">
               {APPLICATION_CARDS.map(({ id, Icon, label, sub }) => (
                 <motion.div key={id} variants={staggerItem}>
                   <PopupButton popupId={id} className="guide-card glass">
@@ -510,7 +511,7 @@ function ContactSlide() {
   const { activePopup, closePopup } = usePresentation();
   const active = activePopup === 'company' ? activePopup : null;
   return (
-    <Slide index={13} hero>
+    <Slide index={14} hero>
       <WaterBackground waves={2} ripples={false} />
       <AnimatePresence mode="wait">
         {!active ? (
@@ -521,9 +522,9 @@ function ContactSlide() {
             </FadeUp>
             <FadeUp delay={0.2}>
               <div className="contact-block">
-                <img src="/img/logo.svg" alt="iTank" className="contact-logo" />
+                <img src="/img/acs-logo.jpeg" alt="ACS Technologies" className="contact-logo" />
                 <div className="contact-details">
-                  <h3>ACS Technologies Pvt Ltd</h3>
+                  <h3>ACS Technologies Ltd</h3>
                   <p><MapPin size={14} className="inline-icon" /> Hyderabad, Telangana</p>
                   <p>
                     <Globe size={14} className="inline-icon" />
@@ -560,8 +561,40 @@ function ContactSlide() {
 export function SlideDeck() {
   return (
     <>
-      {/* 1 Hero */}
-      <Slide index={1} hero>
+      {/* 1 Landing */}
+      <Slide index={1}>
+        <div className="slide-bg" />
+        <div className="slide-content center">
+          <FadeUp><span className="eyebrow">ACS Technologies Ltd</span></FadeUp>
+          <FadeUp delay={0.08}>
+            <h2 className="slide-title light">ACS Proposals</h2>
+          </FadeUp>
+          <FadeUp delay={0.14}>
+            <p className="slide-lead light">Select a case study to explore</p>
+          </FadeUp>
+          <MotionGrid className="proposal-cards">
+            <motion.div variants={staggerItem}>
+              <GotoButton slide={2} className="proposal-card water">
+                <div className="proposal-card-icon"><Droplets size={22} /></div>
+                <h3>Smart Water Management System</h3>
+                <p>iTank — IoT automation for water supply at Ponmudi Gram Panchayat</p>
+                <span className="proposal-card-cta">View Proposal <ArrowRight size={14} /></span>
+              </GotoButton>
+            </motion.div>
+            <motion.div variants={staggerItem}>
+              <GotoButton slide={11} className="proposal-card traffic">
+                <div className="proposal-card-icon"><ScanLine size={22} /></div>
+                <h3>Smart Traffic Management System</h3>
+                <p>AI-powered license plate recognition, tolling, parking &amp; access control</p>
+                <span className="proposal-card-cta">View Proposal <ArrowRight size={14} /></span>
+              </GotoButton>
+            </motion.div>
+          </MotionGrid>
+        </div>
+      </Slide>
+
+      {/* 2 Hero */}
+      <Slide index={2} hero>
         <WaterBackground bubbles />
         <div className="slide-content hero-content">
           <FadeUp>
@@ -589,28 +622,28 @@ export function SlideDeck() {
           >
             <span className="byline-rule" />
             <p className="hero-company">
-              by <strong>ACS Technologies Pvt Ltd</strong> · Hyderabad
+              by <strong>ACS Technologies Ltd</strong> · Hyderabad
             </p>
           </motion.div>
           <FadeUp delay={0.45}>
-            <GotoButton slide={2} className="btn-water">
+            <GotoButton slide={3} className="btn-water">
               Explore Proposal <ArrowRight size={18} />
             </GotoButton>
           </FadeUp>
         </div>
       </Slide>
 
-      {/* 2 Context */}
+      {/* 3 Context */}
       <ContextSlide />
 
-      {/* 3 Challenges */}
+      {/* 4 Challenges */}
       <ChallengesSlide />
 
-      {/* 4 Solution */}
+      {/* 5 Solution */}
       <SolutionSlide />
 
-      {/* 5 How it works */}
-      <Slide index={5}>
+      {/* 6 How it works */}
+      <Slide index={6}>
         <div className="slide-bg" />
         <div className="slide-content center">
           <FadeUp><span className="eyebrow">Architecture</span></FadeUp>
@@ -639,20 +672,20 @@ export function SlideDeck() {
         </div>
       </Slide>
 
-      {/* 6 Partners */}
+      {/* 7 Partners */}
       <PartnersSlide />
 
-      {/* 7 Impact */}
+      {/* 8 Impact */}
       <ImpactSlide />
 
-      {/* 8 Financial */}
+      {/* 9 Financial */}
       <FinancialSlide />
 
-      {/* 9 Case Study */}
+      {/* 10 Case Study */}
       <CaseStudySlide />
 
-      {/* 10 Traffic Management Intro */}
-      <Slide index={10}>
+      {/* 11 Traffic Management Intro */}
+      <Slide index={11}>
         <div className="slide-bg traffic" />
         <div className="slide-content center">
           <FadeUp><span className="eyebrow">New Vertical</span></FadeUp>
@@ -665,21 +698,28 @@ export function SlideDeck() {
               Technologies&apos; IoT platform beyond water to smart cities, highways &amp; facilities.
             </p>
           </FadeUp>
-          <FadeUp delay={0.26}>
-            <GotoButton slide={11} className="btn-water">
+          <FadeUp delay={0.22}>
+            <DemoVideo
+              streamableId="gn1iei"
+              poster="/img/traffic-demo-poster.jpg"
+              label="Watch Demo"
+            />
+          </FadeUp>
+          <FadeUp delay={0.32}>
+            <GotoButton slide={12} className="btn-water">
               Explore Capabilities <ArrowRight size={18} />
             </GotoButton>
           </FadeUp>
         </div>
       </Slide>
 
-      {/* 11 Recognition Capabilities */}
+      {/* 12 Recognition Capabilities */}
       <RecognitionSlide />
 
-      {/* 12 Smart Applications */}
+      {/* 13 Smart Applications */}
       <ApplicationsSlide />
 
-      {/* 13 Contact */}
+      {/* 14 Contact */}
       <ContactSlide />
     </>
   );

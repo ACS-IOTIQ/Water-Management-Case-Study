@@ -33,4 +33,4 @@ export interface PopupData {
   points: string[];
 }
 
-export const TOTAL_SLIDES = 13;
+export const TOTAL_SLIDES = 14;

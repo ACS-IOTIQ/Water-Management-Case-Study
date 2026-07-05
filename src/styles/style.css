@@ -44,7 +44,11 @@ html, body, #root {
   z-index: 1000;
 }
 
-.nav-logo { display: flex; align-items: center; gap: 10px; }
+.nav-logo {
+  display: flex; align-items: center; gap: 10px;
+  border: none; background: none; padding: 0; cursor: pointer;
+  font-family: inherit; text-align: left;
+}
 .nav-brand { display: flex; flex-direction: column; line-height: 1.2; }
 .nav-brand span { color: #fff; font-weight: 700; font-size: 1rem; }
 .nav-brand small { color: var(--aqua); font-size: 0.65rem; font-weight: 500; letter-spacing: 0.04em; }
@@ -100,7 +104,7 @@ html, body, #root {
   position: absolute; inset: 0; z-index: 0;
   background-image:
     linear-gradient(165deg, rgba(5, 13, 26, 0.87) 0%, rgba(8, 28, 50, 0.68) 45%, rgba(4, 11, 22, 0.9) 100%),
-    url('/img/waterflow.jpg');
+    url('/img/waterbg.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -110,7 +114,7 @@ html, body, #root {
 .slide-bg.traffic {
   background-image:
     linear-gradient(165deg, rgba(5, 13, 26, 0.87) 0%, rgba(8, 28, 50, 0.68) 45%, rgba(4, 11, 22, 0.9) 100%),
-    url('/img/traffic-bg.jpg');
+    url('/img/trafficbg.png');
 }
 
 /* ── Type ── */
@@ -143,6 +147,82 @@ html, body, #root {
   -webkit-backdrop-filter: blur(18px);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius);
+}
+
+/* ── Landing: proposal picker ── */
+.proposal-cards {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 28px; max-width: 920px; margin: 8px auto 0;
+}
+.proposal-card {
+  position: relative; overflow: hidden;
+  height: 320px; border-radius: var(--radius-lg);
+  border: 1px solid var(--glass-border);
+  cursor: pointer; font-family: inherit;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 26px; text-align: left; color: #fff;
+  background-size: cover; background-position: center;
+  transition: transform 0.35s, box-shadow 0.35s, border-color 0.35s;
+}
+.proposal-card::before {
+  content: ''; position: absolute; inset: 0; z-index: 0;
+  background: linear-gradient(180deg, rgba(6,14,28,0.1) 0%, rgba(4,10,20,0.94) 100%);
+}
+.proposal-card:hover { transform: translateY(-8px); box-shadow: 0 24px 60px rgba(0,0,0,0.45); border-color: var(--aqua); }
+.proposal-card.water { background-image: url('/img/waterbg.png'); }
+.proposal-card.traffic { background-image: url('/img/trafficbg.png'); }
+.proposal-card-icon {
+  position: relative; z-index: 1;
+  width: 46px; height: 46px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(255,255,255,0.14); backdrop-filter: blur(10px);
+  margin-bottom: 14px; color: var(--aqua-light);
+  border: 1px solid rgba(255,255,255,0.22);
+}
+.proposal-card h3 { position: relative; z-index: 1; font-size: 1.28rem; font-weight: 800; margin-bottom: 6px; }
+.proposal-card p { position: relative; z-index: 1; font-size: 0.85rem; opacity: 0.85; margin-bottom: 14px; line-height: 1.5; }
+.proposal-card-cta {
+  position: relative; z-index: 1;
+  font-size: 0.82rem; font-weight: 700; color: var(--aqua-light);
+  display: inline-flex; align-items: center; gap: 6px;
+}
+
+@media (max-width: 900px) {
+  .proposal-cards { grid-template-columns: 1fr; max-width: 420px; }
+  .proposal-card { height: 260px; }
+}
+
+/* ── Demo video ── */
+.demo-video-poster {
+  position: relative; display: block;
+  width: 100%; max-width: 560px; margin: 24px auto 0;
+  border-radius: var(--radius-lg); overflow: hidden;
+  border: 1px solid var(--glass-border);
+  cursor: pointer; padding: 0; background: none;
+  box-shadow: var(--shadow-water);
+}
+.demo-video-poster img { width: 100%; display: block; aspect-ratio: 16 / 9; object-fit: cover; }
+.demo-video-play {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: 64px; height: 64px; border-radius: 50%;
+  background: rgba(255,255,255,0.92); color: var(--primary);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+  transition: transform 0.25s;
+}
+.demo-video-poster:hover .demo-video-play { transform: translate(-50%, -50%) scale(1.08); }
+.demo-video-label {
+  position: absolute; bottom: 14px; left: 14px;
+  padding: 6px 14px; border-radius: 100px;
+  background: rgba(0,0,0,0.5); backdrop-filter: blur(6px);
+  color: #fff; font-size: 0.8rem; font-weight: 600;
+}
+.demo-video {
+  width: 100%; max-width: 560px; margin: 24px auto 0; display: block;
+  border-radius: var(--radius-lg); overflow: hidden;
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-water);
+  aspect-ratio: 16 / 9; background: #000;
 }
 
 /* ── Hero ── */
@@ -233,7 +313,7 @@ html, body, #root {
   display: grid; grid-template-columns: repeat(2, 1fr);
   gap: 16px; max-width: 640px; margin: 0 auto;
 }
-.guide-grid.challenge-row {
+.guide-grid.quad-row {
   grid-template-columns: repeat(4, 1fr);
   max-width: 980px;
 }
@@ -400,7 +480,13 @@ html, body, #root {
   display: flex; align-items: center; justify-content: center;
   gap: 36px; flex-wrap: wrap; text-align: left;
 }
-.contact-logo { width: 56px; height: 56px; }
+.contact-logo {
+  width: 64px; height: 64px;
+  object-fit: contain;
+  border-radius: 12px;
+  background: #fff;
+  padding: 6px;
+}
 .contact-details { color: #fff; }
 .contact-details h3 { font-size: 1.2rem; margin-bottom: 6px; }
 .contact-details p { font-size: 0.9rem; opacity: 0.8; margin-bottom: 4px; }
@@ -522,7 +608,7 @@ html, body, #root {
   .split { grid-template-columns: 1fr; }
   .value-trio { grid-template-columns: 1fr; }
   .guide-grid { grid-template-columns: 1fr; }
-  .guide-grid.challenge-row { grid-template-columns: repeat(2, 1fr); }
+  .guide-grid.quad-row { grid-template-columns: repeat(2, 1fr); }
   .nav-progress { display: none; }
   .flow-grid { grid-template-columns: repeat(2, 1fr); }
   .tab-grid, .tab-grid.three-col { grid-template-columns: 1fr; }
@@ -532,7 +618,7 @@ html, body, #root {
 @media (max-width: 600px) {
   .commercial-row, .partner-row, .pillar-row { flex-direction: column; align-items: center; }
   .comm-card, .partner-card, .pillar { width: 100%; max-width: 280px; }
-  .guide-grid.challenge-row { grid-template-columns: 1fr; }
+  .guide-grid.quad-row { grid-template-columns: 1fr; }
 }
 
 /* ── Savings breakdown donut ── */
