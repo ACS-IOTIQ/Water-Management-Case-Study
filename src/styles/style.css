@@ -480,13 +480,6 @@ html, body, #root {
   display: flex; align-items: center; justify-content: center;
   gap: 36px; flex-wrap: wrap; text-align: left;
 }
-.contact-logo {
-  width: 64px; height: 64px;
-  object-fit: contain;
-  border-radius: 12px;
-  background: #fff;
-  padding: 6px;
-}
 .contact-details { color: #fff; }
 .contact-details h3 { font-size: 1.2rem; margin-bottom: 6px; }
 .contact-details p { font-size: 0.9rem; opacity: 0.8; margin-bottom: 4px; }

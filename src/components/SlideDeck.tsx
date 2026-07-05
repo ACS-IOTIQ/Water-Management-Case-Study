@@ -506,7 +506,6 @@ function ContactSlide() {
             </FadeUp>
             <FadeUp delay={0.2}>
               <div className="contact-block">
-                <img src="/img/acs-logo.jpeg" alt="ACS Technologies" className="contact-logo" />
                 <div className="contact-details">
                   <h3>ACS Technologies Ltd</h3>
                   <p><MapPin size={14} className="inline-icon" /> Hyderabad, Telangana</p>
