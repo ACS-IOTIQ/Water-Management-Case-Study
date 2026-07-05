@@ -1,19 +1,29 @@
+import { useState } from 'react';
+import { AnimatePresence } from 'framer-motion';
 import {
   ArrowRight,
   BarChart3,
   Building2,
   Calendar,
+  Camera,
+  Car,
   CheckCircle2,
   Cpu,
+  CreditCard,
   Droplets,
   Globe,
   Handshake,
   Landmark,
+  Layers,
   Leaf,
+  Lock,
   MapPin,
+  Moon,
+  ParkingSquare,
   Phone,
   Radio,
   Scale,
+  ScanLine,
   ShieldCheck,
   Sliders,
   TrendingUp,
@@ -21,6 +31,8 @@ import {
   Wrench,
   Zap,
 } from 'lucide-react';
+import type { PopupId } from '../types';
+import { POPUPS } from '../data/popups';
 import { KEY_PERFORMANCE, PONMUDI_STATS, SAVINGS_BREAKDOWN } from '../data/slides';
 import { FadeUp, MotionGrid, motion, staggerItem, stepContainer, stepItem } from './ui/Motion';
 import { Slide } from './ui/SlideShell';
@@ -29,6 +41,7 @@ import { GotoButton, PopupButton } from './ui/ActionButtons';
 import { StatCard, KpiBar } from './ui/StatCard';
 import { SavingsDonut } from './ui/SavingsDonut';
 import { SystemTabs } from './ui/SystemTabs';
+import { DetailPanel } from './ui/DetailPanel';
 
 function QrCode() {
   return (
@@ -53,12 +66,242 @@ const HOW_STEPS = [
   { title: 'Report', Icon: BarChart3, desc: 'Dashboard updates; alerts on anomalies' },
 ] as const;
 
+const RECOGNITION_CARDS = [
+  { id: 'anpr-detail' as const, Icon: ScanLine, label: 'Plate Recognition', sub: 'Front & rear, real-time' },
+  { id: 'vehicle-classification' as const, Icon: Car, label: 'Vehicle Classification', sub: 'Type · Color · Model' },
+  { id: 'multi-recognition' as const, Icon: Layers, label: 'Multi-Vehicle Recognition', sub: 'Every lane, every vehicle' },
+  { id: 'night-vision' as const, Icon: Moon, label: 'Night Vision Mode', sub: 'Accurate after dark' },
+] as const;
+
+const APPLICATION_CARDS = [
+  { id: 'tolling-systems' as const, Icon: CreditCard, label: 'Tolling Systems', sub: 'No-stop toll billing' },
+  { id: 'ticketless-parking' as const, Icon: ParkingSquare, label: 'Ticketless Parking', sub: 'Entry & exit by plate' },
+  { id: 'access-control' as const, Icon: Lock, label: 'Access Control', sub: 'Gated communities & sites' },
+  { id: 'smart-security' as const, Icon: Camera, label: 'Smart Security & Reports', sub: 'Live feeds + analytics' },
+] as const;
+
 const PROBLEM_CARDS = [
   { id: 'waste-overflow' as const, Icon: Droplets, label: 'Overflow & Loss', sub: '50K L/day wasted' },
   { id: 'waste-unequal' as const, Icon: Scale, label: 'Unequal Supply', sub: 'Tail-end villages dry' },
   { id: 'waste-quality' as const, Icon: ShieldCheck, label: 'No Accountability', sub: 'Zero monitoring' },
   { id: 'waste-manual' as const, Icon: Wrench, label: 'Manual Control', sub: '5 borewells overused' },
 ] as const;
+
+const SOLUTION_CARDS = [
+  { id: 'conserve-how' as const, Icon: Droplets, title: 'Conserve', desc: 'Stop 50K L/day overflow' },
+  { id: 'regulate-how' as const, Icon: Scale, title: 'Regulate', desc: 'Fair OHT scheduling' },
+  { id: 'quality-how' as const, Icon: ShieldCheck, title: 'Accountability', desc: '100% live monitoring' },
+] as const;
+
+const PARTNER_CARDS = [
+  { id: 'audience-twad' as const, Icon: Landmark, title: 'TWAD & Water Boards' },
+  { id: 'audience-municipal' as const, Icon: Building2, title: 'Municipal Corporations' },
+  { id: 'audience-csr' as const, Icon: Handshake, title: 'CSR & Investors' },
+] as const;
+
+const gridFade = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1 },
+  exit: { opacity: 0 },
+  transition: { duration: 0.3 },
+};
+
+const detailFade = {
+  initial: { opacity: 0, y: 26 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -18 },
+  transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const },
+};
+
+function ChallengesSlide() {
+  const [active, setActive] = useState<PopupId | null>(null);
+  return (
+    <Slide index={3}>
+      <div className="slide-bg" />
+      <AnimatePresence mode="wait">
+        {!active ? (
+          <motion.div key="grid" className="slide-content" {...gridFade}>
+            <FadeUp><span className="eyebrow">Challenges</span></FadeUp>
+            <FadeUp delay={0.08}>
+              <h2 className="slide-title light">Before iTank Automation</h2>
+            </FadeUp>
+            <FadeUp delay={0.14}>
+              <p className="slide-lead light">Tap a card to explore each challenge</p>
+            </FadeUp>
+            <MotionGrid className="guide-grid challenge-row">
+              {PROBLEM_CARDS.map(({ id, Icon, label, sub }) => (
+                <motion.div key={id} variants={staggerItem}>
+                  <button type="button" className="guide-card glass" onClick={() => setActive(id)}>
+                    <div className="guide-icon-wrap">
+                      <Icon size={26} strokeWidth={1.75} />
+                    </div>
+                    <h3>{label}</h3>
+                    <em>{sub}</em>
+                  </button>
+                </motion.div>
+              ))}
+            </MotionGrid>
+          </motion.div>
+        ) : (
+          <motion.div key="detail" className="slide-content center" {...detailFade}>
+            <DetailPanel data={POPUPS[active]} onClose={() => setActive(null)} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </Slide>
+  );
+}
+
+function SolutionSlide() {
+  const [active, setActive] = useState<PopupId | null>(null);
+  return (
+    <Slide index={4}>
+      <div className="slide-bg" />
+      <AnimatePresence mode="wait">
+        {!active ? (
+          <motion.div key="grid" className="slide-content center" {...gridFade}>
+            <FadeUp><span className="eyebrow">Solution</span></FadeUp>
+            <FadeUp delay={0.08}>
+              <h2 className="slide-title light">iTank — Conserve · Regulate · Deliver</h2>
+            </FadeUp>
+            <FadeUp delay={0.14}>
+              <p className="slide-lead light">
+                Efficient, equitable &amp; sustainable water supply for every village
+              </p>
+            </FadeUp>
+            <MotionGrid className="value-trio">
+              {SOLUTION_CARDS.map(({ id, Icon, title, desc }) => (
+                <motion.div key={id} variants={staggerItem}>
+                  <button type="button" className="value-card glass" onClick={() => setActive(id)}>
+                    <div className="value-ring"><Icon size={24} /></div>
+                    <h3>{title}</h3>
+                    <p>{desc}</p>
+                    <span className="guide-link">Details →</span>
+                  </button>
+                </motion.div>
+              ))}
+            </MotionGrid>
+          </motion.div>
+        ) : (
+          <motion.div key="detail" className="slide-content center" {...detailFade}>
+            <DetailPanel data={POPUPS[active]} onClose={() => setActive(null)} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </Slide>
+  );
+}
+
+function PartnersSlide() {
+  const [active, setActive] = useState<PopupId | null>(null);
+  return (
+    <Slide index={6}>
+      <div className="slide-bg" />
+      <AnimatePresence mode="wait">
+        {!active ? (
+          <motion.div key="grid" className="slide-content center" {...gridFade}>
+            <FadeUp><span className="eyebrow">Stakeholders</span></FadeUp>
+            <FadeUp delay={0.08}>
+              <h2 className="slide-title light">Built for Public Water Leadership</h2>
+            </FadeUp>
+            <MotionGrid className="partner-row">
+              {PARTNER_CARDS.map(({ id, Icon, title }) => (
+                <motion.div key={id} variants={staggerItem}>
+                  <button type="button" className="partner-card glass" onClick={() => setActive(id)}>
+                    <Icon size={32} strokeWidth={1.5} />
+                    <h3>{title}</h3>
+                  </button>
+                </motion.div>
+              ))}
+            </MotionGrid>
+          </motion.div>
+        ) : (
+          <motion.div key="detail" className="slide-content center" {...detailFade}>
+            <DetailPanel data={POPUPS[active]} onClose={() => setActive(null)} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </Slide>
+  );
+}
+
+function RecognitionSlide() {
+  const [active, setActive] = useState<PopupId | null>(null);
+  return (
+    <Slide index={11}>
+      <div className="slide-bg" />
+      <AnimatePresence mode="wait">
+        {!active ? (
+          <motion.div key="grid" className="slide-content" {...gridFade}>
+            <FadeUp><span className="eyebrow">Core Technology</span></FadeUp>
+            <FadeUp delay={0.08}>
+              <h2 className="slide-title light">Recognition Capabilities</h2>
+            </FadeUp>
+            <FadeUp delay={0.14}>
+              <p className="slide-lead light">Tap a card to see how each capability works</p>
+            </FadeUp>
+            <MotionGrid className="guide-grid">
+              {RECOGNITION_CARDS.map(({ id, Icon, label, sub }) => (
+                <motion.div key={id} variants={staggerItem}>
+                  <button type="button" className="guide-card glass" onClick={() => setActive(id)}>
+                    <div className="guide-icon-wrap">
+                      <Icon size={26} strokeWidth={1.75} />
+                    </div>
+                    <h3>{label}</h3>
+                    <em>{sub}</em>
+                  </button>
+                </motion.div>
+              ))}
+            </MotionGrid>
+          </motion.div>
+        ) : (
+          <motion.div key="detail" className="slide-content center" {...detailFade}>
+            <DetailPanel data={POPUPS[active]} onClose={() => setActive(null)} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </Slide>
+  );
+}
+
+function ApplicationsSlide() {
+  const [active, setActive] = useState<PopupId | null>(null);
+  return (
+    <Slide index={12}>
+      <div className="slide-bg" />
+      <AnimatePresence mode="wait">
+        {!active ? (
+          <motion.div key="grid" className="slide-content" {...gridFade}>
+            <FadeUp><span className="eyebrow">Smart Infrastructure</span></FadeUp>
+            <FadeUp delay={0.08}>
+              <h2 className="slide-title light">Smart Applications</h2>
+            </FadeUp>
+            <FadeUp delay={0.14}>
+              <p className="slide-lead light">Same recognition engine, applied across infrastructure</p>
+            </FadeUp>
+            <MotionGrid className="guide-grid">
+              {APPLICATION_CARDS.map(({ id, Icon, label, sub }) => (
+                <motion.div key={id} variants={staggerItem}>
+                  <button type="button" className="guide-card glass" onClick={() => setActive(id)}>
+                    <div className="guide-icon-wrap">
+                      <Icon size={26} strokeWidth={1.75} />
+                    </div>
+                    <h3>{label}</h3>
+                    <em>{sub}</em>
+                  </button>
+                </motion.div>
+              ))}
+            </MotionGrid>
+          </motion.div>
+        ) : (
+          <motion.div key="detail" className="slide-content center" {...detailFade}>
+            <DetailPanel data={POPUPS[active]} onClose={() => setActive(null)} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </Slide>
+  );
+}
 
 export function SlideDeck() {
   return (
@@ -130,63 +373,10 @@ export function SlideDeck() {
       </Slide>
 
       {/* 3 Challenges */}
-      <Slide index={3}>
-        <div className="slide-bg" />
-        <div className="slide-content">
-          <FadeUp><span className="eyebrow">Challenges</span></FadeUp>
-          <FadeUp delay={0.08}>
-            <h2 className="slide-title light">Before iTank Automation</h2>
-          </FadeUp>
-          <FadeUp delay={0.14}>
-            <p className="slide-lead light">Tap a card to explore each challenge</p>
-          </FadeUp>
-          <MotionGrid className="guide-grid">
-            {PROBLEM_CARDS.map(({ id, Icon, label, sub }) => (
-              <motion.div key={id} variants={staggerItem}>
-                <PopupButton popupId={id} className="guide-card glass">
-                  <div className="guide-icon-wrap">
-                    <Icon size={26} strokeWidth={1.75} />
-                  </div>
-                  <h3>{label}</h3>
-                  <em>{sub}</em>
-                </PopupButton>
-              </motion.div>
-            ))}
-          </MotionGrid>
-        </div>
-      </Slide>
+      <ChallengesSlide />
 
       {/* 4 Solution */}
-      <Slide index={4}>
-        <div className="slide-bg" />
-        <div className="slide-content center">
-          <FadeUp><span className="eyebrow">Solution</span></FadeUp>
-          <FadeUp delay={0.08}>
-            <h2 className="slide-title light">iTank — Conserve · Regulate · Deliver</h2>
-          </FadeUp>
-          <FadeUp delay={0.14}>
-            <p className="slide-lead light">
-              Efficient, equitable &amp; sustainable water supply for every village
-            </p>
-          </FadeUp>
-          <MotionGrid className="value-trio">
-            {[
-              { id: 'conserve-how' as const, Icon: Droplets, title: 'Conserve', desc: 'Stop 50K L/day overflow' },
-              { id: 'regulate-how' as const, Icon: Scale, title: 'Regulate', desc: 'Fair OHT scheduling' },
-              { id: 'quality-how' as const, Icon: ShieldCheck, title: 'Accountability', desc: '100% live monitoring' },
-            ].map(({ id, Icon, title, desc }) => (
-              <motion.div key={id} variants={staggerItem}>
-                <PopupButton popupId={id} className="value-card glass">
-                  <div className="value-ring"><Icon size={24} /></div>
-                  <h3>{title}</h3>
-                  <p>{desc}</p>
-                  <span className="guide-link">Details →</span>
-                </PopupButton>
-              </motion.div>
-            ))}
-          </MotionGrid>
-        </div>
-      </Slide>
+      <SolutionSlide />
 
       {/* 5 How it works */}
       <Slide index={5}>
@@ -219,29 +409,7 @@ export function SlideDeck() {
       </Slide>
 
       {/* 6 Partners */}
-      <Slide index={6}>
-        <div className="slide-bg" />
-        <div className="slide-content center">
-          <FadeUp><span className="eyebrow">Stakeholders</span></FadeUp>
-          <FadeUp delay={0.08}>
-            <h2 className="slide-title light">Built for Public Water Leadership</h2>
-          </FadeUp>
-          <MotionGrid className="partner-row">
-            {[
-              { id: 'audience-twad' as const, Icon: Landmark, title: 'TWAD & Water Boards' },
-              { id: 'audience-municipal' as const, Icon: Building2, title: 'Municipal Corporations' },
-              { id: 'audience-csr' as const, Icon: Handshake, title: 'CSR & Investors' },
-            ].map(({ id, Icon, title }) => (
-              <motion.div key={id} variants={staggerItem}>
-                <PopupButton popupId={id} className="partner-card glass">
-                  <Icon size={32} strokeWidth={1.5} />
-                  <h3>{title}</h3>
-                </PopupButton>
-              </motion.div>
-            ))}
-          </MotionGrid>
-        </div>
-      </Slide>
+      <PartnersSlide />
 
       {/* 7 Impact */}
       <Slide index={7}>
@@ -362,8 +530,36 @@ export function SlideDeck() {
         </div>
       </Slide>
 
-      {/* 10 Contact */}
-      <Slide index={10} hero>
+      {/* 10 Traffic Management Intro */}
+      <Slide index={10}>
+        <div className="slide-bg" />
+        <div className="slide-content center">
+          <FadeUp><span className="eyebrow">New Vertical</span></FadeUp>
+          <FadeUp delay={0.08}>
+            <h2 className="slide-title light">AI Traffic &amp; Surveillance Management</h2>
+          </FadeUp>
+          <FadeUp delay={0.16}>
+            <p className="slide-lead light">
+              License plate recognition, vehicle classification &amp; access control — extending ACS
+              Technologies&apos; IoT platform beyond water to smart cities, highways &amp; facilities.
+            </p>
+          </FadeUp>
+          <FadeUp delay={0.26}>
+            <GotoButton slide={11} className="btn-water">
+              Explore Capabilities <ArrowRight size={18} />
+            </GotoButton>
+          </FadeUp>
+        </div>
+      </Slide>
+
+      {/* 11 Recognition Capabilities */}
+      <RecognitionSlide />
+
+      {/* 12 Smart Applications */}
+      <ApplicationsSlide />
+
+      {/* 13 Contact */}
+      <Slide index={13} hero>
         <WaterBackground waves={2} ripples={false} />
         <div className="slide-content hero-content">
           <FadeUp><h2 className="thanks-title">Thank You</h2></FadeUp>

@@ -228,6 +228,10 @@ html, body, #root {
   display: grid; grid-template-columns: repeat(2, 1fr);
   gap: 16px; max-width: 640px; margin: 0 auto;
 }
+.guide-grid.challenge-row {
+  grid-template-columns: repeat(4, 1fr);
+  max-width: 980px;
+}
 .guide-card {
   padding: 24px 20px; text-align: center; color: #fff;
   cursor: pointer; font-family: inherit;
@@ -490,6 +494,85 @@ body.modal-open { overflow: hidden; }
 
 .popup-note { font-size: 0.78rem; opacity: 0.55; text-align: center; margin-top: 10px; font-style: italic; }
 
+/* ── Inline card detail (replaces modal for card-grid slides) ── */
+.inline-detail {
+  width: 100%; max-width: 680px; margin: 0 auto;
+  color: #fff; text-align: left;
+}
+.inline-detail-close {
+  display: inline-flex; align-items: center; gap: 6px;
+  margin-bottom: 36px;
+  padding: 7px 15px;
+  border: 1px solid rgba(255,255,255,0.28); border-radius: 100px;
+  background: rgba(0,0,0,0.2); color: #fff;
+  font-size: 0.8rem; font-weight: 600; cursor: pointer; font-family: inherit;
+  transition: all 0.25s;
+}
+.inline-detail-close:hover {
+  background: rgba(79, 195, 247, 0.22); border-color: var(--aqua);
+  transform: translateX(-2px);
+}
+
+.inline-detail-split {
+  display: grid; grid-template-columns: 42% 1fr;
+  gap: 40px; align-items: center;
+}
+.inline-detail-visual {
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+  height: 200px;
+}
+.inline-detail-visual::before {
+  content: ''; position: absolute;
+  width: 170px; height: 170px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(79, 195, 247, 0.28), transparent 72%);
+  filter: blur(4px);
+}
+.inline-detail-visual svg {
+  position: relative; z-index: 1;
+  color: var(--aqua-light);
+  filter: drop-shadow(0 10px 34px rgba(0,0,0,0.55));
+}
+
+.inline-detail-stat {
+  font-family: var(--font-display);
+  font-size: 3rem; font-weight: 900; line-height: 1;
+  color: var(--aqua-light); margin-bottom: 6px;
+  text-shadow: 0 2px 18px rgba(0,0,0,0.7);
+}
+.inline-detail-stat-label {
+  font-size: 0.74rem; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.08em; opacity: 0.8; margin-bottom: 18px;
+  text-shadow: 0 1px 10px rgba(0,0,0,0.7);
+}
+.inline-detail-title {
+  font-size: 1.5rem; font-weight: 800; line-height: 1.3;
+  text-shadow: 0 2px 14px rgba(0,0,0,0.7);
+}
+.inline-detail-divider {
+  display: block; width: 48px; height: 3px; margin: 20px 0 22px;
+  background: linear-gradient(90deg, var(--aqua), transparent);
+  border-radius: 2px;
+}
+.inline-detail-points { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+.inline-detail-points li {
+  position: relative; padding-left: 18px;
+  font-size: 0.96rem; line-height: 1.65; color: rgba(255,255,255,0.94);
+  text-shadow: 0 1px 12px rgba(0,0,0,0.75);
+}
+.inline-detail-points li::before {
+  content: ''; position: absolute; left: 0; top: 0.6em;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--aqua);
+}
+.inline-detail-points strong { color: var(--aqua-light); }
+
+@media (max-width: 900px) {
+  .inline-detail-split { grid-template-columns: 1fr; }
+  .inline-detail-visual { height: 120px; }
+  .inline-detail-visual svg { width: 60px; height: 60px; }
+}
+
 .popup-dashboard { background: rgba(0,0,0,0.22); border-radius: 12px; padding: 14px; margin: 10px 0; }
 .pd-row { display: flex; align-items: center; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 0.84rem; gap: 8px; }
 .pd-row:last-child { border-bottom: none; }
@@ -514,6 +597,7 @@ body.modal-open { overflow: hidden; }
   .split { grid-template-columns: 1fr; }
   .value-trio { grid-template-columns: 1fr; }
   .guide-grid { grid-template-columns: 1fr; }
+  .guide-grid.challenge-row { grid-template-columns: repeat(2, 1fr); }
   .nav-progress { display: none; }
   .flow-grid { grid-template-columns: repeat(2, 1fr); }
   .tab-grid, .tab-grid.three-col { grid-template-columns: 1fr; }
@@ -523,6 +607,7 @@ body.modal-open { overflow: hidden; }
 @media (max-width: 600px) {
   .commercial-row, .partner-row, .pillar-row { flex-direction: column; align-items: center; }
   .comm-card, .partner-card, .pillar { width: 100%; max-width: 280px; }
+  .guide-grid.challenge-row { grid-template-columns: 1fr; }
 }
 
 /* ── Savings breakdown donut ── */

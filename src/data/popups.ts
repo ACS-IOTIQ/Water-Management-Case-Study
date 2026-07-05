@@ -202,4 +202,76 @@ export const POPUPS: Record<PopupId, PopupData> = {
       'Designing & deploying IoT solutions for water conservation and public utility automation across India.',
     ],
   },
+  'anpr-detail': {
+    title: 'AI License Plate Recognition',
+    icon: 'scan',
+    points: [
+      'AI-powered license plate detection software reads plates in real time.',
+      'Captures both <strong>front & rear</strong> license plates.',
+      'Built for high-traffic roads, checkpoints, and gated facilities.',
+    ],
+  },
+  'vehicle-classification': {
+    title: 'Vehicle Classification',
+    icon: 'car',
+    points: [
+      'Automatically tags each vehicle by <strong>type</strong> — sedan, SUV, van, truck, motorcycle.',
+      'Captures <strong>color</strong> and <strong>model</strong> alongside the plate number.',
+      'Structured data ready for search, alerts, and reporting.',
+    ],
+  },
+  'multi-recognition': {
+    title: 'Multiple Vehicle Recognition',
+    icon: 'layers',
+    points: [
+      'Recognizes <strong>multiple vehicles simultaneously</strong> across lanes.',
+      'No missed detections in dense, multi-lane traffic.',
+      'Scales from a single gate to a full highway corridor.',
+    ],
+  },
+  'night-vision': {
+    title: 'Night Vision Mode',
+    icon: 'moon',
+    points: [
+      'Dedicated <strong>night vision mode</strong> for low-light and after-dark conditions.',
+      'Maintains plate and vehicle recognition accuracy around the clock.',
+      'No extra street lighting required at monitored points.',
+    ],
+  },
+  'tolling-systems': {
+    title: 'Tolling Systems',
+    icon: 'creditcard',
+    points: [
+      'Vehicles are billed automatically by plate — <strong>no stopping required</strong>.',
+      'Works at highway gantries and toll plazas.',
+      'Removes manual toll booths and cash handling.',
+    ],
+  },
+  'ticketless-parking': {
+    title: 'Ticketless Parking Systems',
+    icon: 'parking',
+    points: [
+      'Entry and exit barriers open on plate match — <strong>no paper tickets</strong>.',
+      'Automatic duration & fee calculation per vehicle.',
+      'Faster throughput at malls, offices, and residential lots.',
+    ],
+  },
+  'access-control': {
+    title: 'Access Control Systems',
+    icon: 'lock',
+    points: [
+      'Automatic barrier control for gated communities and facilities.',
+      'Only recognized and authorized plates are allowed through.',
+      'Full entry & exit log for every vehicle.',
+    ],
+  },
+  'smart-security': {
+    title: 'Smart Security & Reports',
+    icon: 'camera',
+    points: [
+      'Live camera feeds accessible remotely from a phone or dashboard.',
+      'Automated <strong>reports & analytics</strong> on traffic and access activity.',
+      'Alerts on flagged or unrecognized plates.',
+    ],
+  },
 };

@@ -15,7 +15,15 @@ export type PopupId =
   | 'roi-detail'
   | 'deployment'
   | 'case-reference'
-  | 'company';
+  | 'company'
+  | 'anpr-detail'
+  | 'vehicle-classification'
+  | 'multi-recognition'
+  | 'night-vision'
+  | 'tolling-systems'
+  | 'ticketless-parking'
+  | 'access-control'
+  | 'smart-security';
 
 export interface PopupData {
   title: string;
@@ -25,4 +33,4 @@ export interface PopupData {
   points: string[];
 }
 
-export const TOTAL_SLIDES = 10;
+export const TOTAL_SLIDES = 13;

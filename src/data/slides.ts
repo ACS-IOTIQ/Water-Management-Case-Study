@@ -8,6 +8,9 @@ export const SLIDE_TITLES = [
   'Impact Results',
   'Financial Outcome',
   'Case Study',
+  'Traffic Management',
+  'Recognition Capabilities',
+  'Smart Applications',
   'Contact',
 ] as const;
 
