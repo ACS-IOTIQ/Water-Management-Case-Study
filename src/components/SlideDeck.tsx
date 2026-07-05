@@ -512,8 +512,8 @@ function ContactSlide() {
                   <p><MapPin size={14} className="inline-icon" /> Hyderabad, Telangana</p>
                   <p>
                     <Globe size={14} className="inline-icon" />
-                    <a href="https://www.acstechlogies.com" target="_blank" rel="noopener noreferrer">
-                      www.acstechlogies.com
+                    <a href="https://www.acstechnologies.co.in/" target="_blank" rel="noopener noreferrer">
+                      www.acstechnologies.co.in
                     </a>
                   </p>
                   <p className="contact-phone">

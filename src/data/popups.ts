@@ -196,7 +196,7 @@ export const POPUPS: Record<PopupId, PopupData> = {
     icon: 'building',
     points: [
       '<strong>HQ:</strong> Hyderabad, Telangana',
-      '<strong>Web:</strong> www.acstechlogies.com',
+      '<strong>Web:</strong> www.acstechnologies.co.in',
       '<strong>Phone:</strong> +91 78456 97475',
       '<strong>Product:</strong> iTank — IoT Smart Water Management System',
       'Designing & deploying IoT solutions for water conservation and public utility automation across India.',
