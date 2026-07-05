@@ -107,6 +107,11 @@ html, body, #root {
   background-attachment: fixed;
   filter: saturate(1.18) contrast(1.05) brightness(1.02);
 }
+.slide-bg.traffic {
+  background-image:
+    linear-gradient(165deg, rgba(5, 13, 26, 0.87) 0%, rgba(8, 28, 50, 0.68) 45%, rgba(4, 11, 22, 0.9) 100%),
+    url('/img/traffic-bg.jpg');
+}
 
 /* ── Type ── */
 .eyebrow {
@@ -412,87 +417,7 @@ html, body, #root {
 .qr-svg { width: 110px; height: 110px; border-radius: 10px; display: block; }
 .qr-block span { display: block; margin-top: 8px; font-size: 0.72rem; opacity: 0.55; }
 
-/* ── Water Popup Modal ── */
-body.modal-open { overflow: hidden; }
-
-.modal-overlay {
-  position: fixed; inset: 0; z-index: 2000;
-  background: rgba(7, 15, 30, 0.82);
-  backdrop-filter: blur(10px);
-  display: flex; align-items: center; justify-content: center;
-  padding: 20px;
-  opacity: 0; visibility: hidden;
-  transition: opacity 0.4s, visibility 0.4s;
-}
-.modal-overlay.open { opacity: 1; visibility: visible; }
-
-.modal-water {
-  position: relative; width: 100%; max-width: 680px;
-  transform: scale(0.88) translateY(30px);
-  transition: transform 0.45s var(--ease);
-}
-.modal-overlay.open .modal-water { transform: scale(1) translateY(0); }
-
-.modal-inner {
-  position: relative; overflow: hidden;
-  padding: 36px 34px 32px;
-  color: #fff; z-index: 2;
-}
-
-.glass-water {
-  background: linear-gradient(160deg, rgba(10, 77, 163, 0.94) 0%, rgba(13, 27, 42, 0.97) 100%);
-  border: 1px solid rgba(79, 195, 247, 0.35);
-  border-radius: var(--radius-lg);
-  box-shadow: 0 28px 90px rgba(10, 77, 163, 0.5), inset 0 1px 0 rgba(255,255,255,0.12);
-}
-
-.modal-close {
-  position: absolute; top: 14px; right: 14px; z-index: 5;
-  width: 34px; height: 34px;
-  border: 1px solid rgba(255,255,255,0.2);
-  border-radius: 50%;
-  background: rgba(0,0,0,0.2);
-  color: #fff; font-size: 1.3rem;
-  cursor: pointer; transition: all 0.25s;
-}
-.modal-close:hover { background: rgba(255,255,255,0.15); transform: rotate(90deg); }
-
-.modal-split {
-  display: grid; grid-template-columns: 190px 1fr;
-  gap: 28px; align-items: start;
-}
-.modal-left {
-  display: flex; flex-direction: column; align-items: flex-start;
-  padding-right: 22px;
-  border-right: 1px solid rgba(255,255,255,0.12);
-}
-.modal-stat {
-  font-family: var(--font-display);
-  font-size: 2.3rem; font-weight: 900; line-height: 1;
-  color: var(--aqua-light); margin-bottom: 4px;
-}
-.modal-stat-label {
-  font-size: 0.7rem; font-weight: 600; text-transform: uppercase;
-  letter-spacing: 0.08em; opacity: 0.6; margin-bottom: 16px;
-}
-.modal-title { font-size: 1.2rem; font-weight: 800; text-align: left; margin-bottom: 0; line-height: 1.3; }
-.modal-points {
-  list-style: none;
-  max-height: 50vh; overflow-y: auto;
-  display: flex; flex-direction: column; gap: 12px;
-}
-.modal-points li {
-  position: relative; padding-left: 18px;
-  font-size: 0.92rem; line-height: 1.65; color: rgba(255,255,255,0.88);
-}
-.modal-points li::before {
-  content: ''; position: absolute; left: 0; top: 0.55em;
-  width: 6px; height: 6px; border-radius: 50%;
-  background: var(--aqua);
-}
-.modal-points strong { color: var(--aqua-light); }
-
-.popup-note { font-size: 0.78rem; opacity: 0.55; text-align: center; margin-top: 10px; font-style: italic; }
+.popup-note { font-size: 0.78rem; opacity: 0.55; text-align: center; margin-top: 10px; font-style: italic; color: #fff; }
 
 /* ── Inline card detail (replaces modal for card-grid slides) ── */
 .inline-detail {
@@ -573,8 +498,8 @@ body.modal-open { overflow: hidden; }
   .inline-detail-visual svg { width: 60px; height: 60px; }
 }
 
-.popup-dashboard { background: rgba(0,0,0,0.22); border-radius: 12px; padding: 14px; margin: 10px 0; }
-.pd-row { display: flex; align-items: center; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 0.84rem; gap: 8px; }
+.popup-dashboard { background: rgba(0,0,0,0.22); border-radius: 12px; padding: 14px; margin: 10px 0; color: #fff; }
+.pd-row { display: flex; align-items: center; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 0.84rem; gap: 8px; color: rgba(255,255,255,0.9); }
 .pd-row:last-child { border-bottom: none; }
 .pd-bar { flex: 1; height: 7px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; max-width: 90px; }
 .pd-fill { height: 100%; width: 88%; background: linear-gradient(90deg, var(--secondary), var(--accent)); transition: width 1s; }
@@ -739,22 +664,10 @@ body.modal-open { overflow: hidden; }
 .scale-stats .stat-icon-wrap { margin: 0; flex-shrink: 0; }
 .scale-stats .stat-value { font-size: clamp(1.15rem, 2vw, 1.4rem); }
 
-.modal-icon {
-  display: flex; justify-content: flex-start; margin-bottom: 10px;
-  color: var(--aqua);
-}
-
 @media (max-width: 900px) {
   .stat-row, .impact-grid { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 600px) {
   .stat-row, .impact-grid { grid-template-columns: 1fr; }
   .kpi-bar { flex-direction: column; align-items: center; }
-}
-@media (max-width: 640px) {
-  .modal-split { grid-template-columns: 1fr; }
-  .modal-left {
-    border-right: none; border-bottom: 1px solid rgba(255,255,255,0.12);
-    padding-right: 0; padding-bottom: 16px; margin-bottom: 4px;
-  }
 }

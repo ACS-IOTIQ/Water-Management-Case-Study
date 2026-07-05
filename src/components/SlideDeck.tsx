@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import {
   ArrowRight,
@@ -31,9 +30,9 @@ import {
   Wrench,
   Zap,
 } from 'lucide-react';
-import type { PopupId } from '../types';
 import { POPUPS } from '../data/popups';
 import { KEY_PERFORMANCE, PONMUDI_STATS, SAVINGS_BREAKDOWN } from '../data/slides';
+import { usePresentation } from '../context/PresentationContext';
 import { FadeUp, MotionGrid, motion, staggerItem, stepContainer, stepItem } from './ui/Motion';
 import { Slide } from './ui/SlideShell';
 import { WaterBackground } from './ui/WaterBackground';
@@ -113,8 +112,48 @@ const detailFade = {
   transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const },
 };
 
+function ContextSlide() {
+  const { activePopup, closePopup } = usePresentation();
+  const active = activePopup === 'water-crisis' ? activePopup : null;
+  return (
+    <Slide index={2}>
+      <div className="slide-bg" />
+      <AnimatePresence mode="wait">
+        {!active ? (
+          <motion.div key="grid" className="slide-content" {...gridFade}>
+            <FadeUp><span className="eyebrow">Reference Site</span></FadeUp>
+            <FadeUp delay={0.08}>
+              <h2 className="slide-title light">Ponmudi Gram Panchayat</h2>
+            </FadeUp>
+            <FadeUp delay={0.14}>
+              <p className="slide-lead light">
+                <MapPin size={16} className="inline-icon" /> Erode District, Tamil Nadu — smart water for ~14,000 citizens
+              </p>
+            </FadeUp>
+            <MotionGrid className="stat-row">
+              <StatCard icon={Building2} value={`~${PONMUDI_STATS.ohts}`} label="Overhead Tanks" delay={0.1} />
+              <StatCard icon={Users} value="~14K" label="People Served" delay={0.18} accent />
+              <StatCard icon={CheckCircle2} value="100%" label="Villages Covered" delay={0.26} />
+            </MotionGrid>
+            <FadeUp delay={0.35}>
+              <PopupButton popupId="water-crisis" className="btn-guide">
+                Before Automation <ArrowRight size={16} />
+              </PopupButton>
+            </FadeUp>
+          </motion.div>
+        ) : (
+          <motion.div key="detail" className="slide-content center" {...detailFade}>
+            <DetailPanel data={POPUPS[active]} onClose={closePopup} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </Slide>
+  );
+}
+
 function ChallengesSlide() {
-  const [active, setActive] = useState<PopupId | null>(null);
+  const { activePopup, closePopup } = usePresentation();
+  const active = PROBLEM_CARDS.some((c) => c.id === activePopup) ? activePopup : null;
   return (
     <Slide index={3}>
       <div className="slide-bg" />
@@ -131,20 +170,20 @@ function ChallengesSlide() {
             <MotionGrid className="guide-grid challenge-row">
               {PROBLEM_CARDS.map(({ id, Icon, label, sub }) => (
                 <motion.div key={id} variants={staggerItem}>
-                  <button type="button" className="guide-card glass" onClick={() => setActive(id)}>
+                  <PopupButton popupId={id} className="guide-card glass">
                     <div className="guide-icon-wrap">
                       <Icon size={26} strokeWidth={1.75} />
                     </div>
                     <h3>{label}</h3>
                     <em>{sub}</em>
-                  </button>
+                  </PopupButton>
                 </motion.div>
               ))}
             </MotionGrid>
           </motion.div>
         ) : (
           <motion.div key="detail" className="slide-content center" {...detailFade}>
-            <DetailPanel data={POPUPS[active]} onClose={() => setActive(null)} />
+            <DetailPanel data={POPUPS[active]} onClose={closePopup} />
           </motion.div>
         )}
       </AnimatePresence>
@@ -153,7 +192,8 @@ function ChallengesSlide() {
 }
 
 function SolutionSlide() {
-  const [active, setActive] = useState<PopupId | null>(null);
+  const { activePopup, closePopup } = usePresentation();
+  const active = SOLUTION_CARDS.some((c) => c.id === activePopup) ? activePopup : null;
   return (
     <Slide index={4}>
       <div className="slide-bg" />
@@ -172,19 +212,19 @@ function SolutionSlide() {
             <MotionGrid className="value-trio">
               {SOLUTION_CARDS.map(({ id, Icon, title, desc }) => (
                 <motion.div key={id} variants={staggerItem}>
-                  <button type="button" className="value-card glass" onClick={() => setActive(id)}>
+                  <PopupButton popupId={id} className="value-card glass">
                     <div className="value-ring"><Icon size={24} /></div>
                     <h3>{title}</h3>
                     <p>{desc}</p>
                     <span className="guide-link">Details →</span>
-                  </button>
+                  </PopupButton>
                 </motion.div>
               ))}
             </MotionGrid>
           </motion.div>
         ) : (
           <motion.div key="detail" className="slide-content center" {...detailFade}>
-            <DetailPanel data={POPUPS[active]} onClose={() => setActive(null)} />
+            <DetailPanel data={POPUPS[active]} onClose={closePopup} />
           </motion.div>
         )}
       </AnimatePresence>
@@ -193,7 +233,8 @@ function SolutionSlide() {
 }
 
 function PartnersSlide() {
-  const [active, setActive] = useState<PopupId | null>(null);
+  const { activePopup, closePopup } = usePresentation();
+  const active = PARTNER_CARDS.some((c) => c.id === activePopup) ? activePopup : null;
   return (
     <Slide index={6}>
       <div className="slide-bg" />
@@ -207,17 +248,177 @@ function PartnersSlide() {
             <MotionGrid className="partner-row">
               {PARTNER_CARDS.map(({ id, Icon, title }) => (
                 <motion.div key={id} variants={staggerItem}>
-                  <button type="button" className="partner-card glass" onClick={() => setActive(id)}>
+                  <PopupButton popupId={id} className="partner-card glass">
                     <Icon size={32} strokeWidth={1.5} />
                     <h3>{title}</h3>
-                  </button>
+                  </PopupButton>
                 </motion.div>
               ))}
             </MotionGrid>
           </motion.div>
         ) : (
           <motion.div key="detail" className="slide-content center" {...detailFade}>
-            <DetailPanel data={POPUPS[active]} onClose={() => setActive(null)} />
+            <DetailPanel data={POPUPS[active]} onClose={closePopup} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </Slide>
+  );
+}
+
+function ImpactSlide() {
+  const { activePopup, closePopup } = usePresentation();
+  const active = activePopup === 'benefits-detail' ? activePopup : null;
+  return (
+    <Slide index={7}>
+      <div className="slide-bg" />
+      <AnimatePresence mode="wait">
+        {!active ? (
+          <motion.div key="grid" className="slide-content center" {...gridFade}>
+            <FadeUp><span className="eyebrow">Proven Results</span></FadeUp>
+            <FadeUp delay={0.08}>
+              <h2 className="slide-title light">Impact at Ponmudi</h2>
+            </FadeUp>
+            <MotionGrid className="impact-grid">
+              <StatCard icon={TrendingUp} value="+34%" label="Water Supply Increase" delay={0.1} accent />
+              <StatCard icon={Zap} value="-40%" label="Electricity Saved" delay={0.16} />
+              <StatCard icon={Droplets} value="50K L" label="Overflow Prevented/Day" delay={0.22} />
+              <StatCard icon={BarChart3} value="-30%" label="Cost per Kilolitre" delay={0.28} />
+              <StatCard icon={Users} value="199" label="New Connections" delay={0.34} />
+              <StatCard icon={Leaf} value="54T" label="CO₂ Offset/Year" delay={0.4} />
+            </MotionGrid>
+            <FadeUp delay={0.45}>
+              <PopupButton popupId="benefits-detail" className="btn-guide">
+                Full Impact Report <ArrowRight size={16} />
+              </PopupButton>
+            </FadeUp>
+            <KpiBar
+              items={[
+                { icon: CheckCircle2, value: '100%', label: 'OHTs Live' },
+                { icon: Cpu, value: '98%', label: 'Automation' },
+                { icon: Droplets, value: '2.70L', label: 'Lakh L/Day' },
+              ]}
+            />
+            <motion.div
+              className="perf-chips"
+              variants={stepContainer}
+              initial="hidden"
+              animate="show"
+              transition={{ delayChildren: 0.5 }}
+            >
+              {KEY_PERFORMANCE.map((item) => (
+                <motion.span key={item} className="perf-chip" variants={stepItem}>
+                  <span className="check">✓</span> {item}
+                </motion.span>
+              ))}
+            </motion.div>
+          </motion.div>
+        ) : (
+          <motion.div key="detail" className="slide-content center" {...detailFade}>
+            <DetailPanel data={POPUPS[active]} onClose={closePopup} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </Slide>
+  );
+}
+
+function FinancialSlide() {
+  const { activePopup, closePopup } = usePresentation();
+  const active =
+    activePopup === 'commercial-detail' || activePopup === 'roi-detail' ? activePopup : null;
+  return (
+    <Slide index={8}>
+      <div className="slide-bg" />
+      <AnimatePresence mode="wait">
+        {!active ? (
+          <motion.div key="grid" className="slide-content center" {...gridFade}>
+            <FadeUp><span className="eyebrow">ROI</span></FadeUp>
+            <FadeUp delay={0.08}>
+              <h2 className="slide-title light">Financial Outcome</h2>
+            </FadeUp>
+            <MotionGrid className="commercial-row">
+              <StatCard icon={TrendingUp} value={PONMUDI_STATS.investment} label="Investment" delay={0.1} />
+              <StatCard icon={Zap} value={PONMUDI_STATS.annualSavings} label="Annual Savings" delay={0.18} accent />
+              <StatCard icon={BarChart3} value={PONMUDI_STATS.payback} label="Payback Period" delay={0.26} />
+            </MotionGrid>
+            <FadeUp delay={0.32}>
+              <SavingsDonut segments={[...SAVINGS_BREAKDOWN]} total={PONMUDI_STATS.annualSavings} />
+            </FadeUp>
+            <FadeUp delay={0.42}>
+              <div className="btn-group">
+                <PopupButton popupId="commercial-detail" className="btn-guide">Savings Breakdown</PopupButton>
+                <PopupButton popupId="roi-detail" className="btn-guide">Scale ROI →</PopupButton>
+              </div>
+            </FadeUp>
+          </motion.div>
+        ) : (
+          <motion.div key="detail" className="slide-content center" {...detailFade}>
+            <DetailPanel data={POPUPS[active]} onClose={closePopup} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </Slide>
+  );
+}
+
+function CaseStudySlide() {
+  const { activePopup, closePopup } = usePresentation();
+  const active =
+    activePopup === 'case-reference' || activePopup === 'deployment' ? activePopup : null;
+  return (
+    <Slide index={9}>
+      <div className="slide-bg" />
+      <AnimatePresence mode="wait">
+        {!active ? (
+          <motion.div key="grid" className="slide-content split" {...gridFade}>
+            <div>
+              <FadeUp><span className="eyebrow">Scale</span></FadeUp>
+              <FadeUp delay={0.08}>
+                <h2 className="slide-title light">Deployment &amp; Expansion</h2>
+              </FadeUp>
+              <FadeUp delay={0.14}>
+                <p className="slide-lead light">
+                  Scaling across <strong>{PONMUDI_STATS.scalePanchayats} Gram Panchayats</strong> ·{' '}
+                  <strong>{PONMUDI_STATS.scaleOhts} OHTs</strong> in Erode District
+                </p>
+              </FadeUp>
+              <motion.div
+                className="phase-list"
+                variants={stepContainer}
+                initial="hidden"
+                animate="show"
+                transition={{ delayChildren: 0.22 }}
+              >
+                {['Site Survey', 'Install & Configure', 'Go Live & Train', 'District Scale'].map((p, i) => (
+                  <motion.div key={p} className="phase" variants={stepItem}>
+                    <span>0{i + 1}</span> {p}
+                  </motion.div>
+                ))}
+              </motion.div>
+              <FadeUp delay={0.32}>
+                <div className="btn-group align-left">
+                  <PopupButton popupId="case-reference" className="btn-guide dark">
+                    Full Case Study <ArrowRight size={16} />
+                  </PopupButton>
+                  <PopupButton popupId="deployment" className="btn-guide dark">Deployment Plan</PopupButton>
+                </div>
+              </FadeUp>
+            </div>
+            <FadeUp delay={0.2}>
+              <div className="scale-panel glass">
+                <span className="eyebrow">Scale Snapshot</span>
+                <div className="scale-stats">
+                  <StatCard icon={Building2} value={`${PONMUDI_STATS.scaleOhts}`} label="OHTs at Scale" delay={0.1} />
+                  <StatCard icon={Landmark} value={`${PONMUDI_STATS.scalePanchayats}`} label="Gram Panchayats" delay={0.18} />
+                  <StatCard icon={TrendingUp} value={PONMUDI_STATS.scaleSavingsPotential} label="Annual Savings Potential" delay={0.26} accent />
+                </div>
+              </div>
+            </FadeUp>
+          </motion.div>
+        ) : (
+          <motion.div key="detail" className="slide-content center" {...detailFade}>
+            <DetailPanel data={POPUPS[active]} onClose={closePopup} />
           </motion.div>
         )}
       </AnimatePresence>
@@ -226,10 +427,11 @@ function PartnersSlide() {
 }
 
 function RecognitionSlide() {
-  const [active, setActive] = useState<PopupId | null>(null);
+  const { activePopup, closePopup } = usePresentation();
+  const active = RECOGNITION_CARDS.some((c) => c.id === activePopup) ? activePopup : null;
   return (
     <Slide index={11}>
-      <div className="slide-bg" />
+      <div className="slide-bg traffic" />
       <AnimatePresence mode="wait">
         {!active ? (
           <motion.div key="grid" className="slide-content" {...gridFade}>
@@ -243,20 +445,20 @@ function RecognitionSlide() {
             <MotionGrid className="guide-grid">
               {RECOGNITION_CARDS.map(({ id, Icon, label, sub }) => (
                 <motion.div key={id} variants={staggerItem}>
-                  <button type="button" className="guide-card glass" onClick={() => setActive(id)}>
+                  <PopupButton popupId={id} className="guide-card glass">
                     <div className="guide-icon-wrap">
                       <Icon size={26} strokeWidth={1.75} />
                     </div>
                     <h3>{label}</h3>
                     <em>{sub}</em>
-                  </button>
+                  </PopupButton>
                 </motion.div>
               ))}
             </MotionGrid>
           </motion.div>
         ) : (
           <motion.div key="detail" className="slide-content center" {...detailFade}>
-            <DetailPanel data={POPUPS[active]} onClose={() => setActive(null)} />
+            <DetailPanel data={POPUPS[active]} onClose={closePopup} />
           </motion.div>
         )}
       </AnimatePresence>
@@ -265,10 +467,11 @@ function RecognitionSlide() {
 }
 
 function ApplicationsSlide() {
-  const [active, setActive] = useState<PopupId | null>(null);
+  const { activePopup, closePopup } = usePresentation();
+  const active = APPLICATION_CARDS.some((c) => c.id === activePopup) ? activePopup : null;
   return (
     <Slide index={12}>
-      <div className="slide-bg" />
+      <div className="slide-bg traffic" />
       <AnimatePresence mode="wait">
         {!active ? (
           <motion.div key="grid" className="slide-content" {...gridFade}>
@@ -282,20 +485,71 @@ function ApplicationsSlide() {
             <MotionGrid className="guide-grid">
               {APPLICATION_CARDS.map(({ id, Icon, label, sub }) => (
                 <motion.div key={id} variants={staggerItem}>
-                  <button type="button" className="guide-card glass" onClick={() => setActive(id)}>
+                  <PopupButton popupId={id} className="guide-card glass">
                     <div className="guide-icon-wrap">
                       <Icon size={26} strokeWidth={1.75} />
                     </div>
                     <h3>{label}</h3>
                     <em>{sub}</em>
-                  </button>
+                  </PopupButton>
                 </motion.div>
               ))}
             </MotionGrid>
           </motion.div>
         ) : (
           <motion.div key="detail" className="slide-content center" {...detailFade}>
-            <DetailPanel data={POPUPS[active]} onClose={() => setActive(null)} />
+            <DetailPanel data={POPUPS[active]} onClose={closePopup} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </Slide>
+  );
+}
+
+function ContactSlide() {
+  const { activePopup, closePopup } = usePresentation();
+  const active = activePopup === 'company' ? activePopup : null;
+  return (
+    <Slide index={13} hero>
+      <WaterBackground waves={2} ripples={false} />
+      <AnimatePresence mode="wait">
+        {!active ? (
+          <motion.div key="grid" className="slide-content hero-content" {...gridFade}>
+            <FadeUp><h2 className="thanks-title">Thank You</h2></FadeUp>
+            <FadeUp delay={0.1}>
+              <p className="thanks-sub">Reliable · Sustainable · Efficient Water for Every Village</p>
+            </FadeUp>
+            <FadeUp delay={0.2}>
+              <div className="contact-block">
+                <img src="/img/logo.svg" alt="iTank" className="contact-logo" />
+                <div className="contact-details">
+                  <h3>ACS Technologies Pvt Ltd</h3>
+                  <p><MapPin size={14} className="inline-icon" /> Hyderabad, Telangana</p>
+                  <p>
+                    <Globe size={14} className="inline-icon" />
+                    <a href="https://www.acstechlogies.com" target="_blank" rel="noopener noreferrer">
+                      www.acstechlogies.com
+                    </a>
+                  </p>
+                  <p className="contact-phone">
+                    <Phone size={14} className="inline-icon" /> +91 78456 97475
+                  </p>
+                </div>
+                <PopupButton popupId="company" className="qr-block glass">
+                  <QrCode />
+                  <span>Company info</span>
+                </PopupButton>
+              </div>
+            </FadeUp>
+            <FadeUp delay={0.35}>
+              <PopupButton popupId="company" className="btn-water">
+                About ACS Technologies
+              </PopupButton>
+            </FadeUp>
+          </motion.div>
+        ) : (
+          <motion.div key="detail" className="slide-content center" {...detailFade}>
+            <DetailPanel data={POPUPS[active]} onClose={closePopup} />
           </motion.div>
         )}
       </AnimatePresence>
@@ -347,30 +601,7 @@ export function SlideDeck() {
       </Slide>
 
       {/* 2 Context */}
-      <Slide index={2}>
-        <div className="slide-bg" />
-        <div className="slide-content">
-          <FadeUp><span className="eyebrow">Reference Site</span></FadeUp>
-          <FadeUp delay={0.08}>
-            <h2 className="slide-title light">Ponmudi Gram Panchayat</h2>
-          </FadeUp>
-          <FadeUp delay={0.14}>
-            <p className="slide-lead light">
-              <MapPin size={16} className="inline-icon" /> Erode District, Tamil Nadu — smart water for ~14,000 citizens
-            </p>
-          </FadeUp>
-          <MotionGrid className="stat-row">
-            <StatCard icon={Building2} value={`~${PONMUDI_STATS.ohts}`} label="Overhead Tanks" delay={0.1} />
-            <StatCard icon={Users} value="~14K" label="People Served" delay={0.18} accent />
-            <StatCard icon={CheckCircle2} value="100%" label="Villages Covered" delay={0.26} />
-          </MotionGrid>
-          <FadeUp delay={0.35}>
-            <PopupButton popupId="water-crisis" className="btn-guide">
-              Before Automation <ArrowRight size={16} />
-            </PopupButton>
-          </FadeUp>
-        </div>
-      </Slide>
+      <ContextSlide />
 
       {/* 3 Challenges */}
       <ChallengesSlide />
@@ -412,127 +643,17 @@ export function SlideDeck() {
       <PartnersSlide />
 
       {/* 7 Impact */}
-      <Slide index={7}>
-        <div className="slide-bg" />
-        <div className="slide-content center">
-          <FadeUp><span className="eyebrow">Proven Results</span></FadeUp>
-          <FadeUp delay={0.08}>
-            <h2 className="slide-title light">Impact at Ponmudi</h2>
-          </FadeUp>
-          <MotionGrid className="impact-grid">
-            <StatCard icon={TrendingUp} value="+34%" label="Water Supply Increase" delay={0.1} accent />
-            <StatCard icon={Zap} value="-40%" label="Electricity Saved" delay={0.16} />
-            <StatCard icon={Droplets} value="50K L" label="Overflow Prevented/Day" delay={0.22} />
-            <StatCard icon={BarChart3} value="-30%" label="Cost per Kilolitre" delay={0.28} />
-            <StatCard icon={Users} value="199" label="New Connections" delay={0.34} />
-            <StatCard icon={Leaf} value="54T" label="CO₂ Offset/Year" delay={0.4} />
-          </MotionGrid>
-          <FadeUp delay={0.45}>
-            <PopupButton popupId="benefits-detail" className="btn-guide">
-              Full Impact Report <ArrowRight size={16} />
-            </PopupButton>
-          </FadeUp>
-          <KpiBar
-            items={[
-              { icon: CheckCircle2, value: '100%', label: 'OHTs Live' },
-              { icon: Cpu, value: '98%', label: 'Automation' },
-              { icon: Droplets, value: '2.70L', label: 'Lakh L/Day' },
-            ]}
-          />
-          <motion.div
-            className="perf-chips"
-            variants={stepContainer}
-            initial="hidden"
-            animate="show"
-            transition={{ delayChildren: 0.5 }}
-          >
-            {KEY_PERFORMANCE.map((item) => (
-              <motion.span key={item} className="perf-chip" variants={stepItem}>
-                <span className="check">✓</span> {item}
-              </motion.span>
-            ))}
-          </motion.div>
-        </div>
-      </Slide>
+      <ImpactSlide />
 
       {/* 8 Financial */}
-      <Slide index={8}>
-        <div className="slide-bg" />
-        <div className="slide-content center">
-          <FadeUp><span className="eyebrow">ROI</span></FadeUp>
-          <FadeUp delay={0.08}>
-            <h2 className="slide-title light">Financial Outcome</h2>
-          </FadeUp>
-          <MotionGrid className="commercial-row">
-            <StatCard icon={TrendingUp} value={PONMUDI_STATS.investment} label="Investment" delay={0.1} />
-            <StatCard icon={Zap} value={PONMUDI_STATS.annualSavings} label="Annual Savings" delay={0.18} accent />
-            <StatCard icon={BarChart3} value={PONMUDI_STATS.payback} label="Payback Period" delay={0.26} />
-          </MotionGrid>
-          <FadeUp delay={0.32}>
-            <SavingsDonut segments={[...SAVINGS_BREAKDOWN]} total={PONMUDI_STATS.annualSavings} />
-          </FadeUp>
-          <FadeUp delay={0.42}>
-            <div className="btn-group">
-              <PopupButton popupId="commercial-detail" className="btn-guide">Savings Breakdown</PopupButton>
-              <PopupButton popupId="roi-detail" className="btn-guide">Scale ROI →</PopupButton>
-            </div>
-          </FadeUp>
-        </div>
-      </Slide>
+      <FinancialSlide />
 
       {/* 9 Case Study */}
-      <Slide index={9}>
-        <div className="slide-bg" />
-        <div className="slide-content split">
-          <div>
-            <FadeUp><span className="eyebrow">Scale</span></FadeUp>
-            <FadeUp delay={0.08}>
-              <h2 className="slide-title light">Deployment &amp; Expansion</h2>
-            </FadeUp>
-            <FadeUp delay={0.14}>
-              <p className="slide-lead light">
-                Scaling across <strong>{PONMUDI_STATS.scalePanchayats} Gram Panchayats</strong> ·{' '}
-                <strong>{PONMUDI_STATS.scaleOhts} OHTs</strong> in Erode District
-              </p>
-            </FadeUp>
-            <motion.div
-              className="phase-list"
-              variants={stepContainer}
-              initial="hidden"
-              animate="show"
-              transition={{ delayChildren: 0.22 }}
-            >
-              {['Site Survey', 'Install & Configure', 'Go Live & Train', 'District Scale'].map((p, i) => (
-                <motion.div key={p} className="phase" variants={stepItem}>
-                  <span>0{i + 1}</span> {p}
-                </motion.div>
-              ))}
-            </motion.div>
-            <FadeUp delay={0.32}>
-              <div className="btn-group align-left">
-                <PopupButton popupId="case-reference" className="btn-guide dark">
-                  Full Case Study <ArrowRight size={16} />
-                </PopupButton>
-                <PopupButton popupId="deployment" className="btn-guide dark">Deployment Plan</PopupButton>
-              </div>
-            </FadeUp>
-          </div>
-          <FadeUp delay={0.2}>
-            <div className="scale-panel glass">
-              <span className="eyebrow">Scale Snapshot</span>
-              <div className="scale-stats">
-                <StatCard icon={Building2} value={`${PONMUDI_STATS.scaleOhts}`} label="OHTs at Scale" delay={0.1} />
-                <StatCard icon={Landmark} value={`${PONMUDI_STATS.scalePanchayats}`} label="Gram Panchayats" delay={0.18} />
-                <StatCard icon={TrendingUp} value={PONMUDI_STATS.scaleSavingsPotential} label="Annual Savings Potential" delay={0.26} accent />
-              </div>
-            </div>
-          </FadeUp>
-        </div>
-      </Slide>
+      <CaseStudySlide />
 
       {/* 10 Traffic Management Intro */}
       <Slide index={10}>
-        <div className="slide-bg" />
+        <div className="slide-bg traffic" />
         <div className="slide-content center">
           <FadeUp><span className="eyebrow">New Vertical</span></FadeUp>
           <FadeUp delay={0.08}>
@@ -559,42 +680,7 @@ export function SlideDeck() {
       <ApplicationsSlide />
 
       {/* 13 Contact */}
-      <Slide index={13} hero>
-        <WaterBackground waves={2} ripples={false} />
-        <div className="slide-content hero-content">
-          <FadeUp><h2 className="thanks-title">Thank You</h2></FadeUp>
-          <FadeUp delay={0.1}>
-            <p className="thanks-sub">Reliable · Sustainable · Efficient Water for Every Village</p>
-          </FadeUp>
-          <FadeUp delay={0.2}>
-            <div className="contact-block">
-              <img src="/img/logo.svg" alt="iTank" className="contact-logo" />
-              <div className="contact-details">
-                <h3>ACS Technologies Pvt Ltd</h3>
-                <p><MapPin size={14} className="inline-icon" /> Hyderabad, Telangana</p>
-                <p>
-                  <Globe size={14} className="inline-icon" />
-                  <a href="https://www.acstechlogies.com" target="_blank" rel="noopener noreferrer">
-                    www.acstechlogies.com
-                  </a>
-                </p>
-                <p className="contact-phone">
-                  <Phone size={14} className="inline-icon" /> +91 78456 97475
-                </p>
-              </div>
-              <PopupButton popupId="company" className="qr-block glass">
-                <QrCode />
-                <span>Company info</span>
-              </PopupButton>
-            </div>
-          </FadeUp>
-          <FadeUp delay={0.35}>
-            <PopupButton popupId="company" className="btn-water">
-              About ACS Technologies
-            </PopupButton>
-          </FadeUp>
-        </div>
-      </Slide>
+      <ContactSlide />
     </>
   );
 }

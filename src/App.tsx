@@ -7,7 +7,6 @@ import { useSwipeNav } from './hooks/useSwipeNav';
 import { usePresentationToasts } from './hooks/usePresentationToasts';
 import { NavBar } from './components/NavBar';
 import { SlideDeck } from './components/SlideDeck';
-import { WaterModal } from './components/WaterModal';
 
 function PresentationApp() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -42,7 +41,6 @@ function PresentationApp() {
       <div className="presentation" id="presentation" ref={containerRef}>
         <SlideDeck />
       </div>
-      <WaterModal />
       <div className={`key-hint ${hintHidden ? 'hidden' : ''}`}>
         ← → navigate · Tap cards for detail panels
       </div>
